@@ -1,0 +1,2 @@
+# lazynet
+Network Automation
