@@ -2,17 +2,16 @@ import paramiko
 import time
 import getpass
 import os
-from host_seedfile import network_devices
-from host_config_file import host_conf
+#from host_seedfile import network_devices
+#from host_config_file import host_conf
+
+host_conf = open ("conf.txt").readlines() 
+network_devices = open ("ip.txt").readlines()
 
  
 UN = raw_input("Username : ")
 PW = getpass.getpass("Password : ")
-#FN = raw_input("File-name : ")
-
-#UN = "solarwinds"
-#PW = "V09ThPBieum5NBPd"
- 
+#FN = raw_input("File-name : ") 
  
 #This For loop calls host list in the seed file "hostlist_script.py"
 for ip in  network_devices:
