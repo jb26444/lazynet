@@ -1,0 +1,7 @@
+!
+snmp-server host 10.175.163.164 vrf GHC-COIN GlosUp
+!
+snmp-server community GlosUp RO
+!
+
+
