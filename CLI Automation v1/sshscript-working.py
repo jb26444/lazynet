@@ -2,8 +2,6 @@ import paramiko
 import time
 import getpass
 import os
-#from host_seedfile import network_devices
-#from host_config_file import host_conf
 
 host_conf = open ("conf.txt").readlines() 
 network_devices = open ("ip.txt").readlines()
@@ -21,7 +19,7 @@ for ip in  network_devices:
     twrssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     twrssh.connect(ip, port=22, username=UN, password=PW)
     remote = twrssh.invoke_shell()
-    #remote.send('term len 0\n')
+    remote.send('term len 0\n')
     time.sleep(1)
     #This for loop uses config file 'host_config1.py' to enter commands one by one
     for command in host_conf:
