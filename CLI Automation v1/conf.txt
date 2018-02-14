@@ -1,7 +1,7 @@
 !
-snmp-server host 10.175.163.164 vrf GHC-COIN GlosUp
+snmp-server host X.X.X.X vrf RED SNMP-RO
 !
-snmp-server community GlosUp RO
+snmp-server community SNMP-RO RO
 !
 
 
