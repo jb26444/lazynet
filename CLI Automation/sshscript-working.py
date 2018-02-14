@@ -10,8 +10,7 @@ UN = raw_input("Username : ")
 PW = getpass.getpass("Password : ")
 #FN = raw_input("File-name : ")
 
-#UN = "solarwinds"
-#PW = "V09ThPBieum5NBPd"
+
  
  
 #This For loop calls host list in the seed file "hostlist_script.py"
