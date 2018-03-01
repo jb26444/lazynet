@@ -1,0 +1,16 @@
+!
+conf t
+!
+router bgp 64725
+!
+address-family ipv4 vrf GHC-COIN
+redistribute static
+redistribute connected
+exit-address-family
+!
+end
+!
+wr
+
+
+

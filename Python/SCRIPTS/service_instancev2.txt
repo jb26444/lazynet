@@ -1,0 +1,13 @@
+interface gig1/0
+service instance 1 ethernet
+description cust: vrfa
+encapsulation dot1q 1
+rewrite ingress tag pop 1 symmetric
+bridge-domain 1
+!
+service instance 2 ethernet
+description cust: vrfD
+encapsulation dot1q 2
+rewrite ingress tag pop 1 symmetric
+bridge-domain 2
+!

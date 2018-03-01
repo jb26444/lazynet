@@ -1,0 +1,697 @@
+﻿version 15.5
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone year
+service timestamps log datetime msec localtime show-timezone year
+service password-encryption
+service unsupported-transceiver
+no platform punt-keepalive disable-kernel-core
+platform bfd-debug-trace 1
+platform tcp selective-ack
+no platform tcam-parity-error enable
+platform tcam-threshold alarm-frequency 1
+!
+hostname abr1-thamesmead.rbg.updata.net
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition RBG-WAN
+ rd 10.4.26.4:25
+ !
+ address-family ipv4
+  route-target export 64898:25
+  route-target import 64898:25
+ exit-address-family
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+vrf definition UPDATA
+ rd 10.4.26.4:2047
+ !
+ address-family ipv4
+  route-target export 64898:2047
+  route-target import 64898:2047
+ exit-address-family
+!
+logging count
+logging userinfo
+logging buffered 100000
+no logging console
+logging cns-events notifications
+enable secret 5 $1$w7fc$zKnZVPlDXH7jYqcpvzjXV1
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ ACS
+ server name ACS-1
+ server name ACS-2
+ ip vrf forwarding UPDATA
+ ip tacacs source-interface Loopback2047
+!
+aaa authentication banner ^CCCCC
+ 
+ ********************************************************************************
+ 
+ This device logs all login and commands executed to a central security platform.
+ 
+ ********************************************************************************
+ 
+ ^C
+aaa authentication fail-message ^CCCCC
+ 
+ ********************************************************************************
+ 
+ The attempted authentication failed, please try again.  If this error persists,
+ 
+ please contact the administrator of this system.
+ 
+ Disconnect NOW if you have not been expressly authorised to use this system.
+ 
+ By logging onto this system, you accept that your activity may be subject to
+ 
+ monitoring for compliance purposes and may be recorded.
+ 
+ ********************************************************************************
+ 
+ ^C
+aaa authentication login default group ACS local
+aaa authentication enable default group ACS enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default group ACS local 
+aaa authorization commands 15 default group ACS local 
+aaa accounting exec default start-stop group ACS
+aaa accounting commands 15 default start-stop group ACS
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone GMT 0 0
+clock summer-time BST recurring last Sun Mar 1:00 last Sun Oct 2:00
+facility-alarm critical exceed-action shutdown
+cef table output-chain build favor convergence-speed
+no ip source-route
+no ip gratuitous-arps
+!
+no ip bootp server
+
+no ip domain lookup
+ip domain name updata
+!
+snmp-server group solarwinds v3 priv
+!
+snmp-server user user1 solarwinds v3 auth md5 password123 priv aes 128 snmpv3priv
+!
+!
+login on-failure log every 3
+login on-success log
+ipv6 unicast-routing
+!
+!
+!
+!
+!
+!
+!
+mpls label protocol ldp
+no mpls ip propagate-ttl forwarded
+mpls ldp session protection
+mpls ldp igp sync holddown 60000
+mpls ldp label
+ allocate global host-routes
+mpls ldp discovery targeted-hello accept
+mpls traffic-eng tunnels
+mpls traffic-eng reoptimize timers frequency 300
+multilink bundle-name authenticated
+xconnect logging pseudowire status
+xconnect logging redundancy
+!
+!
+license feature port bulk
+license boot level advancedmetroipaccess
+!
+spanning-tree portfast default
+spanning-tree portfast bpduguard default
+spanning-tree portfast bpdufilter default
+sdm prefer default 
+!
+username admin privilege 15 password 7 106F071008161E2A0F07793837
+username solarwinds privilege 15 secret 5 $1$fKKW$2IY24N58r93JmHvDVOcW01
+!
+redundancy
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+cdp run
+!
+ip tcp selective-ack
+ip tcp window-size 65535
+ip tcp path-mtu-discovery
+!
+!
+class-map match-any PSN-APP-4-QG
+ match qos-group 1
+class-map match-any PSN-APP-3-QG
+ match qos-group 2
+class-map match-any PSN-APP-2-QG
+ match qos-group 3
+class-map match-any PSN-APP-1-QG
+ match qos-group 4
+class-map match-any NC
+ match mpls experimental topmost 6 
+ match mpls experimental topmost 7 
+ match dscp cs6 
+ match dscp cs7 
+ match cos  6 
+ match cos  7 
+class-map match-any REALTIME
+ match mpls experimental topmost 5 
+ match dscp ef 
+ match dscp cs5 
+ match cos  5 
+class-map match-any REALTIME-QG
+ match qos-group 5
+class-map match-any NC-QG
+ match qos-group 6
+class-map match-any PSN-APP-4
+ match mpls experimental topmost 1 
+ match dscp af11 
+ match dscp af12 
+ match dscp af13 
+ match dscp cs1 
+ match cos  1 
+class-map match-any PSN-APP-1
+ match mpls experimental topmost 4 
+ match dscp af41 
+ match dscp af42 
+ match dscp af43 
+ match dscp cs4 
+ match cos  4 
+ match dscp cs4  af41  af42  af43 
+class-map match-any PSN-APP-2
+ match mpls experimental topmost 3 
+ match dscp af31 
+ match dscp af32 
+ match dscp af33 
+ match dscp cs3 
+ match cos  3 
+class-map match-any PSN-APP-3
+ match mpls experimental topmost 2 
+ match dscp af21 
+ match dscp af22 
+ match dscp af23 
+ match dscp cs2 
+ match cos  2 
+!         
+policy-map PE-QOS-PSN-CPE-IN
+ class NC
+  set qos-group 6
+ class REALTIME
+  set qos-group 5
+ class PSN-APP-1
+  set qos-group 4
+ class PSN-APP-2
+  set qos-group 3
+ class PSN-APP-3
+  set qos-group 2
+ class PSN-APP-4
+  set qos-group 1
+policy-map PE-QOS-PSN-CORE-OUT
+ class NC-QG
+  bandwidth percent 2 
+ class REALTIME-QG
+  police cir percent 10
+   conform-action transmit 
+   exceed-action drop 
+  priority
+ class PSN-APP-1-QG
+  bandwidth percent 22 
+  random-detect dscp-based
+ class PSN-APP-2-QG
+  bandwidth percent 24 
+  random-detect dscp-based
+ class PSN-APP-3-QG
+  bandwidth percent 12 
+  random-detect dscp-based
+ class PSN-APP-4-QG
+  bandwidth percent 5 
+  random-detect dscp-based
+ class class-default
+  bandwidth percent 25 
+  random-detect
+policy-map PE-QOS-PSN-CORE-IN
+ class NC
+  set qos-group 6
+ class REALTIME
+  set qos-group 5
+ class PSN-APP-1
+  set qos-group 4
+ class PSN-APP-2
+  set qos-group 3
+ class PSN-APP-3
+  set qos-group 2
+ class PSN-APP-4
+  set qos-group 1
+policy-map PE-QOS-PSN-CPE-OUT
+ class NC-QG
+  bandwidth percent 2 
+  queue-limit 1024000 bytes
+ class REALTIME-QG
+  police cir percent 10
+   conform-action transmit 
+   exceed-action drop 
+  priority
+  queue-limit 1024000 bytes
+ class PSN-APP-1-QG
+  bandwidth percent 22 
+  random-detect dscp-based
+  queue-limit 1024000 bytes
+ class PSN-APP-2-QG
+  bandwidth percent 24 
+  random-detect dscp-based
+  queue-limit 1024000 bytes
+ class PSN-APP-3-QG
+  bandwidth percent 12 
+  random-detect dscp-based
+  queue-limit 1024000 bytes
+ class PSN-APP-4-QG
+  bandwidth percent 5 
+  random-detect dscp-based
+  queue-limit 1024000 bytes
+ class class-default
+  bandwidth percent 25 
+  random-detect
+  queue-limit 1024000 bytes
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description core:GRT Loopback
+ ip address 10.4.26.4 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback2047
+ description core:MGMT Loopback
+ vrf forwarding UPDATA
+ ip address 10.251.19.4 255.255.255.255
+!
+!
+interface GigabitEthernet0/0/10
+ description CORE:P2P-abr1-eltham.rbg.updata.net-BTBE200855
+ dampening
+ mtu 8900
+ ip address 10.12.26.7 255.255.255.254
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip ospf message-digest-key 1 RBG-C0R3-PE**
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ load-interval 30
+ carrier-delay msec 0
+ no negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ bfd interval 50 min_rx 50 multiplier 3
+ cdp enable
+ service-policy input PE-QOS-PSN-CORE-IN
+ service-policy output PE-QOS-PSN-CORE-OUT
+!
+interface GigabitEthernet0/0/11
+ description CORE:P2P-abr1-eltham.rbg.updata.net-BTBE800838
+ dampening
+ mtu 8900
+ ip address 10.12.26.8 255.255.255.254
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip ospf message-digest-key 1 RBG-C0R3-PE**
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ load-interval 30
+ carrier-delay msec 0
+ no negotiation auto
+ mpls ip
+ mpls traffic-eng tunnels
+ bfd interval 50 min_rx 50 multiplier 3
+ cdp enable
+ service-policy input PE-QOS-PSN-CORE-IN
+ service-policy output PE-QOS-PSN-CORE-OUT
+!
+router ospf 1
+ router-id 10.4.26.4
+ ispf
+ auto-cost reference-bandwidth 1000000
+ prefix-priority high route-map OSPF-SPF-PRIORITY
+ fast-reroute per-prefix enable prefix-priority high
+ fast-reroute per-prefix remote-lfa tunnel mpls-ldp
+ area 0 authentication message-digest
+ timers throttle spf 50 200 5000
+ timers throttle lsa 50 200 5000
+ timers lsa arrival 100
+ redistribute connected subnets
+ passive-interface default
+ no passive-interface GigabitEthernet0/0/10
+ no passive-interface GigabitEthernet0/0/11
+ network 10.4.26.4 0.0.0.0 area 0
+ maximum-paths 1
+ bfd all-interfaces
+ mpls ldp sync
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+!
+router bgp 64898
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64898
+  description IBGP Peerings
+  password RBG-C0R3-PE**
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.26.4
+ bgp log-neighbor-changes
+ neighbor 10.251.19.1 inherit peer-session IBGP
+ neighbor 10.251.19.2 inherit peer-session IBGP
+ neighbor 10.251.19.3 inherit peer-session IBGP
+ neighbor 10.251.19.5 inherit peer-session IBGP
+ neighbor 10.251.19.6 inherit peer-session IBGP
+ neighbor 10.251.19.7 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.251.19.1 activate
+  neighbor 10.251.19.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.251.19.2 activate
+  neighbor 10.251.19.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.251.19.3 activate
+  neighbor 10.251.19.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.251.19.5 activate
+  neighbor 10.251.19.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.251.19.6 activate
+  neighbor 10.251.19.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.251.19.7 activate
+  neighbor 10.251.19.7 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !        
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.251.19.1 activate
+  neighbor 10.251.19.1 send-community extended
+  neighbor 10.251.19.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.251.19.2 activate
+  neighbor 10.251.19.2 send-community extended
+  neighbor 10.251.19.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.251.19.3 activate
+  neighbor 10.251.19.3 send-community extended
+  neighbor 10.251.19.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.251.19.5 activate
+  neighbor 10.251.19.5 send-community extended
+  neighbor 10.251.19.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.251.19.6 activate
+  neighbor 10.251.19.6 send-community extended
+  neighbor 10.251.19.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.251.19.7 activate
+  neighbor 10.251.19.7 send-community extended
+  neighbor 10.251.19.7 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf RBG-WAN
+  redistribute connected
+  redistribute static
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+  redistribute static
+ exit-address-family
+!
+no ip forward-protocol nd
+no ip forward-protocol udp
+no ip forward-protocol udp tftp
+no ip forward-protocol udp nameserver
+no ip forward-protocol udp domain
+no ip forward-protocol udp time
+no ip forward-protocol udp netbios-ns
+no ip forward-protocol udp netbios-dgm
+no ip forward-protocol udp tacacs
+!
+ip bgp-community new-format
+ip ftp source-interface Loopback2047
+no ip http server
+no ip http secure-server
+ip tftp source-interface Loopback2047
+ip tacacs source-interface Loopback2047
+ip ssh time-out 60
+ip ssh source-interface Loopback2047
+ip ssh logging events
+ip ssh version 2
+ip ssh dh min size 2048
+ip ssh dscp 56
+ip scp server enable
+!
+ip access-list standard SECURE-SNMP
+ permit 192.168.30.0 0.0.1.255
+ deny   any
+ip access-list standard core-ipv4-ntp-in-allow
+ remark UPDATA-NTP-SERVERS
+ permit 192.168.30.22
+ permit 192.168.30.20
+ip access-list standard core-ipv4-ntp-in-deny
+ remark DENY-NTP-QUERIES
+ deny   any
+!
+ip access-list extended SECURE-VTY
+ permit tcp 192.168.30.0 0.0.1.255 any eq 22 telnet
+ permit tcp 10.12.26.0 0.0.0.31 any eq 22 telnet
+ deny   ip any any
+!
+!
+ip prefix-list BOGONS-IPV4 seq 10 permit 0.0.0.0/8 le 32
+ip prefix-list BOGONS-IPV4 seq 15 permit 10.0.0.0/8 le 32
+ip prefix-list BOGONS-IPV4 seq 20 permit 100.64.0.0/10 le 32
+ip prefix-list BOGONS-IPV4 seq 25 permit 127.0.0.0/8 le 32
+ip prefix-list BOGONS-IPV4 seq 30 permit 169.254.0.0/16 le 32
+ip prefix-list BOGONS-IPV4 seq 35 permit 172.16.0.0/12 le 32
+ip prefix-list BOGONS-IPV4 seq 40 permit 192.0.0.0/24 le 32
+ip prefix-list BOGONS-IPV4 seq 45 permit 192.0.2.0/24 le 32
+ip prefix-list BOGONS-IPV4 seq 50 permit 192.168.0.0/16 le 32
+ip prefix-list BOGONS-IPV4 seq 55 permit 198.18.0.0/15 le 32
+ip prefix-list BOGONS-IPV4 seq 60 permit 198.51.100.0/24 le 32
+ip prefix-list BOGONS-IPV4 seq 65 permit 203.0.113.0/24 le 32
+ip prefix-list BOGONS-IPV4 seq 70 permit 224.0.0.0/3 le 32
+!
+ip prefix-list LOOPBACK-PREFIXES seq 5 permit 10.0.0.0/13 ge 32
+ip prefix-list LOOPBACK-PREFIXES seq 10 permit 123.123.123.0/24 ge 32
+!
+ip prefix-list MGMT seq 5 permit 192.168.30.0/24 le 32
+ip prefix-list MGMT seq 10 permit 10.205.0.0/16 le 32
+logging trap notifications
+logging origin-id ip
+logging facility local5
+logging source-interface Loopback2047 vrf UPDATA
+logging host 192.168.30.41 vrf UPDATA
+logging host 192.168.30.42 vrf UPDATA
+!
+!
+ipv6 prefix-list BOGONS-IPV6-DENY seq 5 permit 3FFE::/16 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 10 permit 2001:DB8::/32 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 15 permit 2001::/32 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 20 permit 2002::/16 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 25 permit ::/8 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 30 permit FE00::/9 le 128
+ipv6 prefix-list BOGONS-IPV6-DENY seq 35 permit FF00::/8 le 128
+!
+ipv6 prefix-list BOGONS-IPV6-PERMIT seq 5 permit 2001::/32
+ipv6 prefix-list BOGONS-IPV6-PERMIT seq 10 permit 2002::/16
+!
+route-map REDIST-STATIC-TO-BGP-IPV4 deny 10
+ match ip address prefix-list BOGONS-IPV4
+!
+route-map REDIST-STATIC-TO-BGP-IPV4 permit 1000
+ set origin igp
+ set community 51551:2
+!         
+route-map REDIST-STATIC-TO-BGP-IPV6 permit 10
+ match ipv6 address prefix-list BOGONS-IPV6-PERMIT
+!
+route-map REDIST-STATIC-TO-BGP-IPV6 deny 20
+ match ipv6 address prefix-list BOGONS-IPV6-DENY
+!
+route-map REDIST-STATIC-TO-BGP-IPV6 permit 1000
+ set origin igp
+ set community 51551:2
+!
+route-map AGG-IBGP-IPV4-OUT permit 10
+ match ip address prefix-list LOOPBACK-PREFIXES
+ set mpls-label
+!
+route-map AGG-IBGP-IPV4-OUT permit 1000
+!
+route-map ORIGINATE-LOOPBACK-BGP-IPV4 permit 10
+ set origin igp
+ set community 51551:10 51551:12
+!
+route-map OSPF-SPF-PRIORITY permit 10
+ match ip address prefix-list LOOPBACK-PREFIXES
+!
+route-map REDIST-CONNECTED-TO-BGP-IPV6 permit 10
+ match ipv6 address prefix-list BOGONS-IPV6-PERMIT
+!
+route-map REDIST-CONNECTED-TO-BGP-IPV6 deny 20
+ match ipv6 address prefix-list BOGONS-IPV6-DENY
+!
+route-map REDIST-CONNECTED-TO-BGP-IPV6 permit 1000
+ set origin igp
+ set community 51551:2
+!
+route-map REDIST-CONNECTED-TO-BGP-IPV4 deny 10
+ match ip address prefix-list BOGONS-IPV4
+!
+route-map REDIST-CONNECTED-TO-BGP-IPV4 permit 1000
+ set origin igp
+ set community 51551:2
+!
+snmp-server group solarwinds v3 priv 
+snmp-server community PQGT16797zaGREH RO SECURE-SNMP
+snmp-server trap-source Loopback2047
+snmp-server location Gloucestershire
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps ospf state-change
+snmp-server enable traps bgp
+snmp-server enable traps config
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps flash insertion removal
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls traffic-eng
+snmp-server enable traps mpls vpn
+mpls ldp router-id Loopback0 force
+!
+tacacs-server directed-request
+tacacs server ACS-1
+ address ipv4 192.168.30.50
+ key RBG-WAN
+tacacs server ACS-2
+ address ipv4 192.168.30.51
+ key RBG-WAN
+!
+!
+!
+control-plane
+!
+banner login ^CCCCCCCC
+ 
+ ********************************************************************************
+ 
+ This system is the property of Updata Infrastructure UK Ltd, unauthorised
+ 
+ connection and/or use is a criminal offence under the Computer Misuse Act 1990.
+ 
+ Disconnect NOW if you have not been expressly authorised to use this system.
+          
+ By logging onto this system, you accept that your activity may be subject to
+ 
+ monitoring for compliance purposes and may be recorded.
+ 
+ ********************************************************************************
+ 
+ ^C
+!
+line con 0
+ session-timeout 30 
+ exec-timeout 30 0
+ logging synchronous
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ session-timeout 30 
+ exec-timeout 30 0
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ session-timeout 30 
+ exec-timeout 30 0
+ logging synchronous
+ transport input ssh
+!
+exception crashinfo file bootflash:crashinfo
+ntp logging
+ntp source Loopback2047
+ntp access-group peer core-ipv4-ntp-in-allow
+ntp access-group serve core-ipv4-ntp-in-deny
+ntp access-group serve-only core-ipv4-ntp-in-deny
+ntp access-group query-only core-ipv4-ntp-in-deny
+ntp server vrf UPDATA 192.168.30.20
+ntp server vrf UPDATA 192.168.30.22 prefer
+!
+!
+end

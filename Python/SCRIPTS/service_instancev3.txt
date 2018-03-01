@@ -1,0 +1,7 @@
+interface Gig1/0
+service instance 10 ethernet
+description cust: vrfA
+encapsulation dot1q 10
+rewrite ingress tag pop 1 symmetric
+bridge-domain 10
+!

@@ -1,0 +1,1 @@
+\service instance2ethernet\description cust: VRF_A\encapsulation dot1q 2ewrite ingress tag pop 1 symmetricridge-domain 2

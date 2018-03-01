@@ -1,0 +1,174 @@
+
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 2165 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC005 - HEREFORD EX*****
+ no ip address
+ duplex full
+ speed 100
+!
+interface GigabitEthernet0/0.524
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 524
+ vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.98 255.255.255.252
+ --More--         !
+interface GigabitEthernet0/1
+ description ****CORPORATE HANDOVER*****
+ vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.113 255.255.255.252
+ duplex auto
+ speed auto
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.97
+ip route vrf HCC-CORPORATE 10.16.0.112 255.255.255.252 10.16.0.114
+ip route vrf HCC-CORPORATE 10.17.1.48 255.255.255.248 10.16.0.114
+ip route vrf HCC-CORPORATE 10.18.83.0 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.20.83.0 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.20.83.64 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.20.83.128 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.20.83.192 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.20.85.0 255.255.255.0 10.16.0.114
+ip route vrf HCC-CORPORATE 10.21.83.0 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.21.85.0 255.255.255.0 10.16.0.114
+ip route vrf HCC-CORPORATE 10.23.83.0 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.23.85.0 255.255.255.0 10.16.0.114
+ip route vrf HCC-CORPORATE 10.24.83.0 255.255.255.192 10.16.0.114
+ip route vrf HCC-CORPORATE 10.24.83.64 255.255.255.192 10.16.0.114
+ --More--         
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 167 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+end
+
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.97 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.97
+      10.0.0.0/8 is variably subnetted, 22 subnets, 5 masks
+C        10.16.0.112/30 is directly connected, GigabitEthernet0/1
+L        10.16.0.113/32 is directly connected, GigabitEthernet0/1
+S        10.17.1.48/29 [1/0] via 10.16.0.114
+S        10.18.83.0/26 [1/0] via 10.16.0.114
+S        10.20.83.0/26 [1/0] via 10.16.0.114
+S        10.20.83.64/26 [1/0] via 10.16.0.114
+S        10.20.83.128/26 [1/0] via 10.16.0.114
+S        10.20.83.192/26 [1/0] via 10.16.0.114
+ --More--         S        10.20.85.0/24 [1/0] via 10.16.0.114
+S        10.21.83.0/26 [1/0] via 10.16.0.114
+S        10.21.85.0/24 [1/0] via 10.16.0.114
+S        10.23.83.0/26 [1/0] via 10.16.0.114
+S        10.23.85.0/24 [1/0] via 10.16.0.114
+S        10.24.83.0/26 [1/0] via 10.16.0.114
+S        10.24.83.64/26 [1/0] via 10.16.0.114
+S        10.24.83.128/26 [1/0] via 10.16.0.114
+S        10.24.83.192/26 [1/0] via 10.16.0.114
+S        10.24.85.0/24 [1/0] via 10.16.0.114
+S        10.25.83.0/26 [1/0] via 10.16.0.114
+S        10.29.83.0/30 [1/0] via 10.16.0.114
+C        10.31.250.96/30 is directly connected, GigabitEthernet0/0.524
+L        10.31.250.98/32 is directly connected, GigabitEthernet0/0.524
+      172.29.0.0/32 is subnetted, 3 subnets
+S        172.29.99.106 [1/0] via 10.16.0.114
+S        172.29.99.200 [1/0] via 10.16.0.114
+S        172.29.100.66 [1/0] via 10.16.0.114
+HCC_FRANKLIN_HOUSE#
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# !
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE# 
+HCC_FRANKLIN_HOUSE#

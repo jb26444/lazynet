@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 471 description GHC-TETBURRY-TETHOS-PRI
+set interfaces xe-1/2/0 unit 471 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 471 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 471 family inet address 10.50.25.112/31
+
+set routing-instances UPDATA interface xe-1/2/0.471
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.113 description GHC-TETBURRY-TETHOS-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.113 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.113 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.113 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 472 description GHC-TETBURRY-TETHOS-PRI
+set interfaces xe-1/2/0 unit 472 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 472 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 472 family inet address 10.50.25.180/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.472
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI neighbor 10.50.25.181 description GHC-TETBURRY-TETHOS-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI neighbor 10.50.25.181 import plc-GHC-TETBURRY-TETHOS-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-TETBURRY-TETHOS-PRI neighbor 10.50.25.181 export plc-GHC-TETBURRY-TETHOS-PRI-export

@@ -1,0 +1,22 @@
+set interfaces xe-1/2/0 unit 561 description GHC-GCS-DILHOS-SEC
+set interfaces xe-1/2/0 unit 561 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 561 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 561 family inet address 10.50.25.128/31
+
+set routing-instances UPDATA interface xe-1/2/0.561
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.129 description GHC-GCS-DILHOS-SEC
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.129 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.129 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.129 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 562 description GHC-GCS-DILHOS-SEC
+set interfaces xe-1/2/0 unit 562 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 562 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 562 family inet address 10.50.25.196/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.562
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.197

@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 391 description GHC-2G-CIRMEM-PRI
+set interfaces xe-1/2/0 unit 391 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 391 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 391 family inet address 10.50.25.172/31
+
+set routing-instances UPDATA interface xe-1/2/0.391
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 description GHC-2G-CIRMEM-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 392 description GHC-2G-CIRMEM-PRI
+set interfaces xe-1/2/0 unit 392 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 392 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 392 family inet address 10.50.25.240/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.392
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI neighbor 10.50.25.241 description GHC-2G-CIRMEM-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI neighbor 10.50.25.241 import plc-GHC-2G-CIRMEM-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-2G-CIRMEM-PRI neighbor 10.50.25.241 export plc-GHC-2G-CIRMEM-PRI-export

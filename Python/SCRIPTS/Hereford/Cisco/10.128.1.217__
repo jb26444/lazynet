@@ -1,0 +1,185 @@
+
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1391 bytes
+ip vrf HCC-CORPORATE
+ description *** HCC-CORPORATE VRF ***
+ rd 51551:2700
+ route-target export 51551:2700
+ route-target import 51551:2700
+!
+!
+interface GigabitEthernet8
+ description ***Fibre TO HEREFORD EXCHANGE***
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet8.551
+ description ***Corporate UPLINK TO HEREFORD EXCHANGE***
+ encapsulation dot1Q 551
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.206 255.255.255.252
+!
+interface Vlan110
+ --More--          ip vrf forwarding HCC-CORPORATE
+ ip address 10.17.0.81 255.255.255.248
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.205
+ip route vrf HCC-CORPORATE 10.18.84.0 255.255.255.192 10.17.0.82
+ip route vrf HCC-CORPORATE 10.18.84.64 255.255.255.192 10.17.0.82
+ip route vrf HCC-CORPORATE 10.20.84.0 255.255.255.0 10.17.0.82
+ip route vrf HCC-CORPORATE 10.20.84.64 255.255.255.192 10.17.0.82
+ip route vrf HCC-CORPORATE 10.23.84.0 255.255.255.0 10.17.0.82
+ip route vrf HCC-CORPORATE 10.23.84.64 255.255.255.192 10.17.0.82
+ip route vrf HCC-CORPORATE 10.24.84.0 255.255.255.0 10.17.0.82
+ip route vrf HCC-CORPORATE 10.25.84.0 255.255.255.192 10.17.0.82
+ip route vrf HCC-CORPORATE 172.29.99.109 255.255.255.255 10.17.0.82
+ip route vrf HCC-CORPORATE 172.29.99.120 255.255.255.248 10.17.0.82
+ip route vrf HCC-CORPORATE 172.29.100.79 255.255.255.255 10.17.0.82
+ip route vrf HCC-CORPORATE 172.29.100.80 255.255.255.255 10.17.0.82
+end
+
+EAD-Hereford-Library-897#
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh run vrf HCC-EDUCATION
+% No VRF named HCC-EDUCATION
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 643 bytes
+ip vrf HCC-PUBLIC
+ description *** HCC-PUBLIC VRF ***
+ rd 51551:2720
+ route-target export 51551:2720
+ route-target import 51551:2720
+!
+!
+interface GigabitEthernet8
+ description ***Fibre TO HEREFORD EXCHANGE***
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet8.558
+ description *** Public UPLINK TO HEREFORD EXCHANGE***
+ encapsulation dot1Q 558
+ ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.54.70 255.255.255.252
+!
+interface Vlan223
+ --More--          ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.56.89 255.255.255.252
+!
+ip route vrf HCC-PUBLIC 0.0.0.0 0.0.0.0 10.31.54.69
+ip route vrf HCC-PUBLIC 10.5.192.0 255.255.255.0 10.31.56.90
+end
+
+EAD-Hereford-Library-897#
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.205 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.205
+      10.0.0.0/8 is variably subnetted, 12 subnets, 5 masks
+C        10.17.0.80/29 is directly connected, Vlan110
+L        10.17.0.81/32 is directly connected, Vlan110
+S        10.18.84.0/26 [1/0] via 10.17.0.82
+S        10.18.84.64/26 [1/0] via 10.17.0.82
+S        10.20.84.0/24 [1/0] via 10.17.0.82
+S        10.20.84.64/26 [1/0] via 10.17.0.82
+S        10.23.84.0/24 [1/0] via 10.17.0.82
+ --More--         S        10.23.84.64/26 [1/0] via 10.17.0.82
+S        10.24.84.0/24 [1/0] via 10.17.0.82
+S        10.25.84.0/26 [1/0] via 10.17.0.82
+C        10.31.250.204/30 is directly connected, GigabitEthernet8.551
+L        10.31.250.206/32 is directly connected, GigabitEthernet8.551
+      172.29.0.0/16 is variably subnetted, 4 subnets, 2 masks
+S        172.29.99.109/32 [1/0] via 10.17.0.82
+S        172.29.99.120/29 [1/0] via 10.17.0.82
+S        172.29.100.79/32 [1/0] via 10.17.0.82
+S        172.29.100.80/32 [1/0] via 10.17.0.82
+EAD-Hereford-Library-897#
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh ip route vrf HCC-EDUCATION
+% IP routing table vrf HCC-EDUCATION does not exist
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.54.69 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.54.69
+      10.0.0.0/8 is variably subnetted, 5 subnets, 3 masks
+S        10.5.192.0/24 [1/0] via 10.31.56.90
+C        10.31.54.68/30 is directly connected, GigabitEthernet8.558
+L        10.31.54.70/32 is directly connected, GigabitEthernet8.558
+C        10.31.56.88/30 is directly connected, Vlan223
+L        10.31.56.89/32 is directly connected, Vlan223
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# !
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897# 
+EAD-Hereford-Library-897#

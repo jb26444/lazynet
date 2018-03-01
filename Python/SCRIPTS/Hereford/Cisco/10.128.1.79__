@@ -1,0 +1,267 @@
+
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1960 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description **** BACKUP CIRCUIT UPLINK TO: HCC-001 Hereford Exchange via Zhone Modem EFM ****
+ bandwidth 20000
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.313
+ --More--          description ***UPLINK TO: Hereford Exchange - CORP VRF***
+ encapsulation dot1Q 313
+ vrf forwarding HCC-CORPORATE
+ ip address 10.31.248.42 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+!
+interface Vlan10
+ description ***HCC-CORP TRANSIT TO CUSTOMER SWITCH****
+ vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.3 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ standby 10 ip 10.16.0.1
+ standby 10 priority 99
+ standby 10 preempt
+ standby 10 authentication Vlan10
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+router bgp 64897
+ !
+ --More--         
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 167 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+end
+
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 1426 bytes
+vrf definition HCC-PUBLIC
+ rd 10.4.9.1:2720
+ !
+ address-family ipv4
+  route-target export 51551:2720
+  route-target import 51551:2720
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description **** BACKUP CIRCUIT UPLINK TO: HCC-001 Hereford Exchange via Zhone Modem EFM ****
+ bandwidth 20000
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.314
+ --More--          description ***UPLINK TO: Hereford Exchange - PUBLIC VRF***
+ encapsulation dot1Q 314
+ vrf forwarding HCC-PUBLIC
+ ip address 10.31.253.58 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+!
+interface Vlan15
+ description ***HCC-PUBLIC TRANSIT TO CUSTOMER SWITCH****
+ vrf forwarding HCC-PUBLIC
+ ip address 10.31.53.27 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ standby 15 ip 10.31.53.25
+ standby 15 priority 99
+ standby 15 preempt
+ standby 15 authentication Vlan15
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+router bgp 64897
+ !
+ --More--         
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.248.41 to network 0.0.0.0
+
+B*    0.0.0.0/0 [20/0] via 10.31.248.41, 7w0d
+      10.0.0.0/8 is variably subnetted, 518 subnets, 8 masks
+C        10.16.0.0/29 is directly connected, Vlan10
+L        10.16.0.3/32 is directly connected, Vlan10
+B        10.16.0.108/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.112/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.116/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.120/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.124/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.132/30 [20/0] via 10.31.248.41, 7w0d
+ --More--         B        10.16.0.148/30 [20/0] via 10.31.248.41, 7w0d
+B        10.16.0.168/30 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.0/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.24/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.32/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.48/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.96/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.120/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.136/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.144/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.200/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.208/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.216/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.224/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.0.248/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.8/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.16/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.32/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.40/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.48/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.72/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.96/29 [20/0] via 10.31.248.41, 7w0d
+B        10.17.1.104/29 [20/0] via 10.31.248.41, 7w0d
+ --More--         
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.253.57 to network 0.0.0.0
+
+B*    0.0.0.0/0 [20/0] via 10.31.253.57, 2w5d
+      10.0.0.0/8 is variably subnetted, 40 subnets, 5 masks
+B        10.5.50.0/23 [20/0] via 10.31.253.57, 7w0d
+B        10.5.192.0/24 [20/0] via 10.31.253.57, 7w0d
+B        10.5.193.0/24 [20/0] via 10.31.253.57, 3w1d
+B        10.5.194.0/24 [20/0] via 10.31.253.57, 7w0d
+B        10.5.195.0/24 [20/0] via 10.31.253.57, 2w4d
+B        10.5.196.0/24 [20/0] via 10.31.253.57, 7w0d
+B        10.5.197.0/24 [20/0] via 10.31.253.57, 3d23h
+B        10.5.198.0/24 [20/0] via 10.31.253.57, 21:23:16
+ --More--         B        10.5.199.0/24 [20/0] via 10.31.253.57, 21:23:16
+B        10.5.200.0/24 [20/0] via 10.31.253.57, 7w0d
+B        10.5.201.0/24 [20/0] via 10.31.253.57, 2w3d
+B        10.5.202.0/24 [20/0] via 10.31.253.57, 7w0d
+B        10.5.204.0/24 [20/0] via 10.31.253.57, 7w0d
+S        10.5.205.0/24 [1/0] via 10.31.53.28
+B        10.31.52.20/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.52.60/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.53.0/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.53.4/30 [20/0] via 10.31.253.57, 21:23:16
+B        10.31.53.8/30 [20/0] via 10.31.253.57, 21:23:16
+B        10.31.53.12/30 [20/0] via 10.31.253.57, 3d23h
+B        10.31.53.16/30 [20/0] via 10.31.253.57, 7w0d
+C        10.31.53.24/29 is directly connected, Vlan15
+L        10.31.53.27/32 is directly connected, Vlan15
+B        10.31.54.8/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.54.36/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.54.56/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.54.68/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.56.88/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.60.12/30 [20/0] via 10.31.253.57, 2w3d
+B        10.31.66.24/30 [20/0] via 10.31.253.57, 7w0d
+B        10.31.78.8/30 [20/0] via 10.31.253.57, 2w4d
+ --More--         
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# !
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941# 
+HCC-Blueschool-House-Backup-CE2-1941#

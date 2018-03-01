@@ -1,0 +1,22 @@
+set interfaces xe-1/2/0 unit 21 description GHC-GCS-CINDHC-SEC
+set interfaces xe-1/2/0 unit 21 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 21 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 21 family inet address 10.50.25.124/31
+
+set routing-instances UPDATA interface xe-1/2/0.21
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.125 description GHC-GCS-CINDHC-SEC
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.125 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.125 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.125 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 22 description GHC-GCS-CINDHC-SEC
+set interfaces xe-1/2/0 unit 22 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 22 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 22 family inet address 10.50.25.192/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.22
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.193

@@ -1,0 +1,4 @@
+interface gig1/0/1
+No shutdown
+switchport mode trunk
+switchport trunk access vlan 1,2,4,5,6

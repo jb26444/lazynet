@@ -1,0 +1,179 @@
+
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1550 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet8
+ description **** UPLINK TO: HCC-001 HEREFORD EXCHANGE BT:GEA:FTTC80/20:CID:OGEA39157280 ****
+ mtu 1512
+ no ip address
+ duplex auto
+ speed auto
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet8.706
+ description ***UPLINK TO: Hereford Exchange - CORP VRF***
+ --More--          encapsulation dot1Q 706
+ vrf forwarding HCC-CORPORATE
+ ip address 10.31.253.26 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+!
+interface Vlan134
+ description ***HCC-CORP TRANSIT TO CUSTOMER SWITCH - ASDA DAC***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.17.1.17 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+router bgp 64897
+ !
+ address-family ipv4 vrf HCC-CORPORATE
+  redistribute connected
+  redistribute static
+  neighbor 10.31.253.25 remote-as 64651
+  neighbor 10.31.253.25 description ***CORP Peering with Hereford Exchange***
+ --More--         
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh run vrf HCC-EDUCATION
+% No VRF named HCC-EDUCATION
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 164 bytes
+vrf definition HCC-PUBLIC
+ rd 10.4.9.1:2720
+ !
+ address-family ipv4
+  route-target export 51551:2720
+  route-target import 51551:2720
+ exit-address-family
+!
+!
+end
+
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.253.25 to network 0.0.0.0
+
+B*    0.0.0.0/0 [20/0] via 10.31.253.25, 2w3d
+      10.0.0.0/8 is variably subnetted, 517 subnets, 8 masks
+B        10.16.0.0/29 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.108/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.112/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.116/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.120/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.124/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.132/30 [20/0] via 10.31.253.25, 2w3d
+ --More--         B        10.16.0.148/30 [20/0] via 10.31.253.25, 2w3d
+B        10.16.0.168/30 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.0/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.24/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.32/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.48/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.96/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.120/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.136/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.144/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.200/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.208/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.216/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.224/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.0.248/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.8/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.16/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.32/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.40/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.48/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.72/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.96/29 [20/0] via 10.31.253.25, 2w3d
+B        10.17.1.104/29 [20/0] via 10.31.253.25, 2w3d
+ --More--         
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh ip route vrf HCC-EDUCATION
+% IP routing table vrf HCC-EDUCATION does not exist
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# !
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA# 
+HCC-South-Wye-Medical-Centre-897VA#

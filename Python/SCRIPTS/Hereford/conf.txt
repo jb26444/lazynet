@@ -1,0 +1,26 @@
+!
+sh run vrf HCC-CORPORATE
+!
+sh run vrf HCC-EDUCATION
+!
+sh run vrf HCC-INTERNET
+!
+sh run vrf HCC-PUBLIC
+!
+sh run vrf HCC-PUBLIC-IL0
+!
+sh ip route vrf HCC-CORPORATE
+!
+sh ip route vrf HCC-EDUCATION
+!
+sh ip route vrf HCC-INTERNET
+!
+sh ip route vrf HCC-PUBLIC
+!
+sh ip route vrf HCC-PUBLIC-IL0
+!
+
+
+
+
+

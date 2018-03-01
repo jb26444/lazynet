@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 571 description GHC-COIN::UPDATA:GHC-GCS-GEOMOR-SEC:xe-1/2/0.201:TTB0732925:10m;
+set interfaces xe-1/2/0 unit 571 vlan-tags outer 45
+set interfaces xe-1/2/0 unit 571 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 571 family inet address 10.50.25.114/31
+
+set routing-instances UPDATA interface xe-1/2/0.571
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.115 description GHC-GCS-GEOMOR-SEC
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.115 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.115 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.115 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 572 description GHC-COIN::GHC-COIN:GHC-GCS-GEOMOR-SEC:xe-1/2/0.202:TTB0732925:10m;
+set interfaces xe-1/2/0 unit 572 vlan-tags outer 45
+set interfaces xe-1/2/0 unit 572 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 572 family inet address 10.50.25.182/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.572
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.183
+
+
+description CUSOMER:CIRCUIT TYPE:VRF:CPE HOSTNAME & MODEL:GiX.201:TTBXXXXXXX:Xm;
+
+
+

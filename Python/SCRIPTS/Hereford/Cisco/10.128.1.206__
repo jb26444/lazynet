@@ -1,0 +1,158 @@
+
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1336 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC005 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.518
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 518
+ --More--          vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.74 255.255.255.252
+!
+interface GigabitEthernet0/1
+ description ***CUSTOMER HANDOVER INTERFACE***
+ vrf forwarding HCC-CORPORATE
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+interface GigabitEthernet0/1.162
+ encapsulation dot1Q 162
+ vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.125 255.255.255.252
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.73
+ip route vrf HCC-CORPORATE 10.16.0.124 255.255.255.252 10.16.0.126
+ip route vrf HCC-CORPORATE 10.18.131.0 255.255.255.0 10.16.0.126
+ip route vrf HCC-CORPORATE 10.20.131.0 255.255.255.0 10.16.0.126
+ip route vrf HCC-CORPORATE 10.23.131.0 255.255.255.0 10.16.0.126
+ip route vrf HCC-CORPORATE 10.25.131.0 255.255.255.0 10.16.0.126
+ip route vrf HCC-CORPORATE 172.29.99.94 255.255.255.255 10.16.0.126
+ --More--         
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 167 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+end
+
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.73 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.73
+      10.0.0.0/8 is variably subnetted, 8 subnets, 3 masks
+C        10.16.0.124/30 is directly connected, GigabitEthernet0/1.162
+L        10.16.0.125/32 is directly connected, GigabitEthernet0/1.162
+S        10.18.131.0/24 [1/0] via 10.16.0.126
+S        10.20.131.0/24 [1/0] via 10.16.0.126
+S        10.23.131.0/24 [1/0] via 10.16.0.126
+S        10.25.131.0/24 [1/0] via 10.16.0.126
+C        10.31.250.72/30 is directly connected, GigabitEthernet0/0.518
+L        10.31.250.74/32 is directly connected, GigabitEthernet0/0.518
+ --More--               172.29.0.0/32 is subnetted, 1 subnets
+S        172.29.99.94 [1/0] via 10.16.0.126
+HCC_ROSS_ROAD_CDC#
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# !
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC# 
+HCC_ROSS_ROAD_CDC#

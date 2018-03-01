@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 411 description GHC-GCS-LYDHOS-PRI
+set interfaces xe-1/2/0 unit 411 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 411 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 411 family inet address 10.50.25.142/31
+
+set routing-instances UPDATA interface xe-1/2/0.411
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.143 description GHC-GCS-LYDHOS-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.143 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.143 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.143 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 412 description GHC-GCS-LYDHOS-PRI
+set interfaces xe-1/2/0 unit 412 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 412 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 412 family inet address 10.50.25.210/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.412
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI neighbor 10.50.25.211 description GHC-GCS-LYDHOS-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI neighbor 10.50.25.211 import plc-GHC-GCS-LYDHOS-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-LYDHOS-PRI neighbor 10.50.25.211 export plc-GHC-GCS-LYDHOS-PRI-export

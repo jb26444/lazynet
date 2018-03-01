@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 711 description GHC-GCS-GEOMOR-PRI
+set interfaces xe-1/2/0 unit 711 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 711 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 711 family inet address 10.50.25.116/31
+
+set routing-instances UPDATA interface xe-1/2/0.711
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.117 description GHC-GCS-GEOMOR-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.117 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.117 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.117 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 712 description GHC-GCS-GEOMOR-PRI
+set interfaces xe-1/2/0 unit 712 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 712 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 712 family inet address 10.50.25.184/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.712
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI neighbor 10.50.25.185 description GHC-GCS-GEOMOR-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI neighbor 10.50.25.185 import plc-GHC-GCS-GEOMOR-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-GEOMOR-PRI neighbor 10.50.25.185 export plc-GHC-GCS-GEOMOR-PRI-export

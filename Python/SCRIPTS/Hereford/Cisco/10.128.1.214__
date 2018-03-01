@@ -1,0 +1,228 @@
+
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1720 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet8
+ description *****Uplink to HCC001 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet8.542
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 542
+ --More--          vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.170 255.255.255.252
+!
+interface Vlan167
+ description ***CUSTOMER LAN - HANDOVER***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.17.2.41 255.255.255.248
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.169
+ip route vrf HCC-CORPORATE 10.17.2.40 255.255.255.248 10.17.2.42
+ip route vrf HCC-CORPORATE 10.20.10.0 255.255.255.0 10.17.2.42
+ip route vrf HCC-CORPORATE 10.20.10.4 255.255.255.252 10.17.2.42
+ip route vrf HCC-CORPORATE 10.20.10.128 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.23.10.0 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.23.10.64 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.24.10.0 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.24.10.64 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.25.10.64 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 10.29.10.128 255.255.255.192 10.17.2.42
+ip route vrf HCC-CORPORATE 172.29.100.90 255.255.255.255 10.17.2.42
+ip route vrf HCC-CORPORATE 172.29.100.92 255.255.255.255 10.17.2.42
+ip route vrf HCC-CORPORATE 172.29.100.93 255.255.255.255 10.17.2.42
+ --More--         
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 558 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+interface GigabitEthernet8
+ description *****Uplink to HCC001 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet8.543
+ description *****Uplink to HCC001 - VRF EDUCATION*****
+ encapsulation dot1Q 543
+ --More--          vrf forwarding HCC-EDUCATION
+ ip address 10.31.250.174 255.255.255.252
+!
+end
+
+MONKMOOR_COURT#
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 547 bytes
+vrf definition HCC-PUBLIC
+ rd 10.4.9.1:2720
+ !
+ address-family ipv4
+  route-target export 51551:2720
+  route-target import 51551:2720
+ exit-address-family
+!
+!
+interface GigabitEthernet8
+ description *****Uplink to HCC001 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet8.560
+ description *****Uplink to HCC001 - VRF PUBLIC*****
+ encapsulation dot1Q 561
+ --More--          vrf forwarding HCC-PUBLIC
+ ip address 10.31.54.58 255.255.255.252
+!
+end
+
+MONKMOOR_COURT#
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.169 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.169
+      10.0.0.0/8 is variably subnetted, 13 subnets, 5 masks
+C        10.17.2.40/29 is directly connected, Vlan167
+L        10.17.2.41/32 is directly connected, Vlan167
+S        10.20.10.0/24 [1/0] via 10.17.2.42
+S        10.20.10.4/30 [1/0] via 10.17.2.42
+S        10.20.10.128/26 [1/0] via 10.17.2.42
+S        10.23.10.0/26 [1/0] via 10.17.2.42
+S        10.23.10.64/26 [1/0] via 10.17.2.42
+ --More--         S        10.24.10.0/26 [1/0] via 10.17.2.42
+S        10.24.10.64/26 [1/0] via 10.17.2.42
+S        10.25.10.64/26 [1/0] via 10.17.2.42
+S        10.29.10.128/26 [1/0] via 10.17.2.42
+C        10.31.250.168/30 is directly connected, GigabitEthernet8.542
+L        10.31.250.170/32 is directly connected, GigabitEthernet8.542
+      172.29.0.0/32 is subnetted, 4 subnets
+S        172.29.100.90 [1/0] via 10.17.2.42
+S        172.29.100.92 [1/0] via 10.17.2.42
+S        172.29.100.93 [1/0] via 10.17.2.42
+S        172.29.100.94 [1/0] via 10.17.2.42
+MONKMOOR_COURT#
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.31.250.172/30 is directly connected, GigabitEthernet8.543
+L        10.31.250.174/32 is directly connected, GigabitEthernet8.543
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.31.54.56/30 is directly connected, GigabitEthernet8.560
+L        10.31.54.58/32 is directly connected, GigabitEthernet8.560
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+MONKMOOR_COURT# 
+MONKMOOR_COURT# !
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT# 
+MONKMOOR_COURT#

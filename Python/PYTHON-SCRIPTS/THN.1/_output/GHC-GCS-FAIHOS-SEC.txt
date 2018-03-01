@@ -1,0 +1,22 @@
+set interfaces xe-1/2/0 unit 691 description GHC-GCS-FAIHOS-SEC
+set interfaces xe-1/2/0 unit 691 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 691 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 691 family inet address 10.50.25.136/31
+
+set routing-instances UPDATA interface xe-1/2/0.691
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.137 description GHC-GCS-FAIHOS-SEC
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.137 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.137 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.137 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 692 description GHC-GCS-FAIHOS-SEC
+set interfaces xe-1/2/0 unit 692 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 692 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 692 family inet address 10.50.25.204/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.692
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.205

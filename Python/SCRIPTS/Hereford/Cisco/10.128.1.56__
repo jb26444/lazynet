@@ -1,0 +1,157 @@
+
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1389 bytes
+ip vrf HCC-CORPORATE
+ description *** HCC-CORPORATE VRF ***
+ rd 51551:2700
+ route-target export 51551:2700
+ route-target import 51551:2700
+!
+!
+interface GigabitEthernet0
+ description ****UPLINK TO HCC001 - HEREFORD EX.*****
+ bandwidth 10000
+ no ip address
+ duplex auto
+ speed 100
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0.165
+ description ****UPLINK TO HCC001 - VRF CORPORATE****
+ encapsulation dot1Q 165
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.252.54 255.255.255.252
+ --More--          no cdp enable
+!
+interface Vlan164
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.17.2.17 255.255.255.248
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.252.53
+ip route vrf HCC-CORPORATE 10.17.2.16 255.255.255.248 10.17.2.18
+ip route vrf HCC-CORPORATE 10.18.109.0 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.20.109.0 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.20.109.128 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.23.109.0 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.23.109.128 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.25.109.0 255.255.255.128 10.17.2.18
+ip route vrf HCC-CORPORATE 10.29.109.0 255.255.255.252 10.17.2.18
+ip route vrf HCC-CORPORATE 172.29.100.1 255.255.255.255 10.17.2.18
+ip route vrf HCC-CORPORATE 172.29.100.2 255.255.255.255 10.17.2.18
+end
+
+HCC-GAOL-STREET#
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 148 bytes
+ip vrf HCC-EDUCATION
+ description *** HCC-EDUCATION VRF ***
+ rd 51551:2710
+ route-target export 51551:2710
+ route-target import 51551:2710
+!
+!
+end
+
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.252.53 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.252.53
+      10.0.0.0/8 is variably subnetted, 11 subnets, 4 masks
+C        10.17.2.16/29 is directly connected, Vlan164
+L        10.17.2.17/32 is directly connected, Vlan164
+S        10.18.109.0/25 [1/0] via 10.17.2.18
+S        10.20.109.0/25 [1/0] via 10.17.2.18
+S        10.20.109.128/25 [1/0] via 10.17.2.18
+S        10.23.109.0/25 [1/0] via 10.17.2.18
+S        10.23.109.128/25 [1/0] via 10.17.2.18
+S        10.25.109.0/25 [1/0] via 10.17.2.18
+ --More--         S        10.29.109.0/30 [1/0] via 10.17.2.18
+C        10.31.252.52/30 is directly connected, GigabitEthernet0.165
+L        10.31.252.54/32 is directly connected, GigabitEthernet0.165
+      172.29.0.0/32 is subnetted, 2 subnets
+S        172.29.100.1 [1/0] via 10.17.2.18
+S        172.29.100.2 [1/0] via 10.17.2.18
+HCC-GAOL-STREET#
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# !
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET# 
+HCC-GAOL-STREET#

@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 381 description GHC-2G-AVONHS-PRI
+set interfaces xe-1/2/0 unit 381 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 381 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 381 family inet address 10.50.25.170/31
+
+set routing-instances UPDATA interface xe-1/2/0.381
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.171 description GHC-2G-AVONHS-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.171 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.171 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.171 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 382 description GHC-2G-AVONHS-PRI
+set interfaces xe-1/2/0 unit 382 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 382 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 382 family inet address 10.50.25.238/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.382
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI neighbor 10.50.25.239 description GHC-2G-AVONHS-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI neighbor 10.50.25.239 import plc-GHC-2G-AVONHS-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-2G-AVONHS-PRI neighbor 10.50.25.239 export plc-GHC-2G-AVONHS-PRI-export

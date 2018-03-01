@@ -1,0 +1,178 @@
+
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 2642 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC005 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.530
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 530
+ --More--          vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.122 255.255.255.252
+!
+interface GigabitEthernet0/0.531
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 531
+ vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.126 255.255.255.252
+!
+interface GigabitEthernet0/1
+ description ***CUSTOMER HANDOVER INTERFACE***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.133 255.255.255.252
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.121
+ip route vrf HCC-CORPORATE 10.16.0.132 255.255.255.252 10.16.0.134
+ip route vrf HCC-CORPORATE 10.18.90.0 255.255.255.0 10.16.0.134
+ip route vrf HCC-CORPORATE 10.20.90.0 255.255.255.0 10.16.0.134
+ip route vrf HCC-CORPORATE 10.20.90.64 255.255.255.192 10.16.0.134
+ip route vrf HCC-CORPORATE 10.20.90.128 255.255.255.192 10.16.0.134
+ --More--         
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 167 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+end
+
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.121 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.121
+      10.0.0.0/8 is variably subnetted, 22 subnets, 5 masks
+C        10.16.0.132/30 is directly connected, GigabitEthernet0/1
+L        10.16.0.133/32 is directly connected, GigabitEthernet0/1
+S        10.18.90.0/24 [1/0] via 10.16.0.134
+S        10.20.90.0/24 [1/0] via 10.16.0.134
+S        10.20.90.64/26 [1/0] via 10.16.0.134
+S        10.20.90.128/26 [1/0] via 10.16.0.134
+S        10.20.90.192/26 [1/0] via 10.16.0.134
+S        10.20.110.0/24 [1/0] via 10.16.0.134
+ --More--         S        10.20.118.0/26 [1/0] via 10.16.0.134
+S        10.20.118.64/26 [1/0] via 10.16.0.134
+S        10.20.118.128/26 [1/0] via 10.16.0.134
+S        10.20.118.192/26 [1/0] via 10.16.0.134
+S        10.23.90.0/24 [1/0] via 10.16.0.134
+S        10.23.110.0/24 [1/0] via 10.16.0.134
+S        10.23.118.0/24 [1/0] via 10.16.0.134
+S        10.25.90.0/26 [1/0] via 10.16.0.134
+S        10.25.110.128/25 [1/0] via 10.16.0.134
+S        10.25.118.0/24 [1/0] via 10.16.0.134
+C        10.31.250.120/30 is directly connected, GigabitEthernet0/0.530
+L        10.31.250.122/32 is directly connected, GigabitEthernet0/0.530
+C        10.31.250.124/30 is directly connected, GigabitEthernet0/0.531
+L        10.31.250.126/32 is directly connected, GigabitEthernet0/0.531
+      172.29.0.0/32 is subnetted, 7 subnets
+S        172.29.99.146 [1/0] via 10.16.0.134
+S        172.29.99.147 [1/0] via 10.16.0.134
+S        172.29.99.148 [1/0] via 10.16.0.134
+S        172.29.99.202 [1/0] via 10.16.0.134
+S        172.29.100.114 [1/0] via 10.16.0.134
+S        172.29.100.210 [1/0] via 10.16.0.134
+S        172.29.100.211 [1/0] via 10.16.0.134
+BELMONT_PCT_HPCT_HQ#
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# !
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ# 
+BELMONT_PCT_HPCT_HQ#

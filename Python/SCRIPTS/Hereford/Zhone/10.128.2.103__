@@ -1,0 +1,56 @@
+Kington_Library  !
+?Invalid command
+Kington_Library  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.2.103/24     00:01:47:a4:96:dd       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:a4:97:3f       AutoConfig
+--------------------------------------------------------------------------------
+Kington_Library  !
+?Invalid command
+Kington_Library  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.2.1       1        STATICLOW                  
+10.128.2.0/24            1/1/6/0/ip       1        LOCAL                      
+Kington_Library  !
+?Invalid command
+Kington_Library  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.2.1       0        1          enabled 
+Kington_Library  !
+?Invalid command
+Kington_Library  bridge show
+     Orig
+Type VLAN/SLAN     VLAN/SLAN  Bridge                              St  Table Data
+--------------------------------------------------------------------------------------
+tls             Tagged 2046   1-1-99-0-efmbond-2046/bridge        UP  D 00:01:47:22:9e:8f
+                                                                      D 00:01:47:31:dc:8d
+                                                                      D 00:20:85:ff:a4:c8
+                                                                      D 00:e0:d8:15:11:90
+                                                                      D 54:4a:00:0a:7c:c0
+tls             Tagged 2046   ipobridge-2046/bridge               UP  D 00:01:47:a4:96:dd
+tls             Tagged 310    1-1-99-0-efmbond-310/bridge         UP  D 54:4a:00:0a:7c:c0
+tls             Tagged 310    1-1-1-0-eth-310/bridge              UP  D 00:f8:2c:75:f8:01
+                                                                      D 00:f8:2c:75:f8:41
+tls             Tagged 363    1-1-99-0-efmbond-363/bridge         UP  D 54:4a:00:0a:7c:c0
+tls             Tagged 363    1-1-2-0-eth-363/bridge              UP  D 00:1f:27:e0:f6:03
+                                                                      D 00:1f:27:e0:f6:42
+6 bridges displayed
+Kington_Library  !
+?Invalid command
+Kington_Library  
+??
+Kington_Library  
+??
+Kington_Library  
+??
+Kington_Library  
+??
+Kington_Library  
+??
+Kington_Library 

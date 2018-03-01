@@ -1,0 +1,93 @@
+Moorfields_Surgery  !
+?Invalid command
+Moorfields_Surgery  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.1.126/24     00:01:47:34:e5:3b       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:34:e5:9d       AutoConfig
+--------------------------------------------------------------------------------
+Moorfields_Surgery  !
+?Invalid command
+Moorfields_Surgery  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.1.1       1        STATICLOW                  
+10.128.1.0/24            1/1/6/0/ip       1        LOCAL                      
+Moorfields_Surgery  !
+?Invalid command
+Moorfields_Surgery  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.1.1       0        1          enabled 
+Moorfields_Surgery  !
+?Invalid command
+Moorfields_Surgery  bridge show
+Type VLAN        Bridge                         St  Table Data
+--------------------------------------------------------------------------------------
+tls          901 1-1-1-0-eth/bridge             UP  D 00:0c:29:1b:fe:e9
+                                                    D 00:0c:29:5c:1f:15
+                                                    D 00:0f:20:b1:65:80
+                                                    D 00:14:c2:65:3c:c0
+                                                    D 00:14:c2:65:3c:e8
+                                                    D 00:17:c8:2e:96:23
+                                                    D 00:c0:ee:3a:39:90
+                                                    D 00:c0:ee:3a:c6:89
+                                                    D 34:64:a9:61:60:44
+                                                    D 34:e6:d7:49:c5:23
+                                                    D 44:03:a7:02:0c:81
+                                                    D 48:4d:7e:f3:33:fa
+                                                    D 74:86:7a:ee:95:fc
+                                                    D a4:ba:db:f3:38:29
+                                                    D b8:ac:6f:a7:e2:68
+                                                    D b8:ac:6f:ab:8a:c8
+                                                    D b8:ca:3a:ad:d5:67
+<SPACE> for next page, <CR> for next line, A for all, Q to quit                                                                                                                   D d4:2c:44:08:fe:0a
+                                                    D d4:2c:44:08:fe:41
+                                                    D d8:fc:93:50:b8:33
+                                                    D e4:1f:13:a5:f4:f7
+                                                    D f8:b1:56:a8:d7:38
+                                                    D f8:b1:56:a8:d8:83
+                                                    D f8:b1:56:a8:d9:91
+                                                    D f8:b1:56:a8:da:a1
+                                                    D f8:b1:56:a8:db:3f
+                                                    D f8:b1:56:a8:dc:9b
+                                                    D f8:b1:56:a8:dc:ab
+                                                    D f8:b1:56:a8:dd:38
+                                                    D f8:b1:56:a8:dd:b2
+                                                    D f8:b1:56:a8:df:fa
+                                                    D f8:b1:56:a9:67:85
+                                                    D f8:b1:56:a9:6a:69
+                                                    D f8:b1:56:a9:ba:8f
+tls Tagged 2046  1-1-99-0-efmbond-2046/bridge   UP  D 00:01:47:1c:6f:3d
+                                                    D 00:01:47:22:95:1b
+<SPACE> for next page, <CR> for next line, A for all, Q to quit                                                                                                                   D 00:01:47:22:96:a6
+                                                    D 00:01:47:22:97:ff
+                                                    D 00:01:47:22:9d:8b
+                                                    D 00:01:47:30:3a:9a
+                                                    D 00:01:47:4a:40:b6
+                                                    D 00:01:47:dc:b1:8f
+                                                    D 00:e0:d8:11:9a:95
+                                                    D 54:4a:00:0a:82:c0
+tls Tagged 2046  ipobridge-2046/bridge          UP  D 00:01:47:34:e5:3b
+tls Tagged 901   1-1-99-0-efmbond-901/bridge    UP  D 00:14:c2:65:5d:00
+                                                    D 00:14:c2:65:5d:22
+                                                    D 00:a2:89:75:ea:0a
+                                                    D 00:a2:89:75:ea:41
+                                                    D 00:ee:bd:ae:7e:fe
+                                                    D 54:4a:00:0a:82:c0
+                                                    D 84:2b:2b:af:74:8a
+                                                    D 90:6c:ac:ba:e1:3a
+                                                    D f8:b1:56:a8:e0:c0
+                                                    D f8:b1:56:d0:8a:b6
+Moorfields_Surgery  
+??
+Moorfields_Surgery  
+??
+Moorfields_Surgery  
+??
+Moorfields_Surgery  
+??
+Moorfields_Surgery 

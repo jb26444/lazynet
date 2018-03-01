@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 391 description GHC-COIN::UPDATA:GHC-2G-CIRMEM-PRI:xe-1/2/0.201::10m;
+set interfaces xe-1/2/0 unit 391 vlan-tags outer 32
+set interfaces xe-1/2/0 unit 391 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 391 family inet address 10.50.25.172/31
+
+set routing-instances UPDATA interface xe-1/2/0.391
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 description GHC-2G-CIRMEM-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.173 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 392 description GHC-COIN::GHC-COIN:GHC-2G-CIRMEM-PRI:xe-1/2/0.202::10m;
+set interfaces xe-1/2/0 unit 392 vlan-tags outer 32
+set interfaces xe-1/2/0 unit 392 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 392 family inet address 10.50.25.240/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.392
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.241
+
+
+description CUSOMER:CIRCUIT TYPE:VRF:CPE HOSTNAME & MODEL:GiX.201:TTBXXXXXXX:Xm;
+
+
+

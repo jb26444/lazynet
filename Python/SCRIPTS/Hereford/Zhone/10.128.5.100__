@@ -1,0 +1,56 @@
+bromyard_community_hospital  !
+?Invalid command
+bromyard_community_hospital  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.5.100/24     00:01:47:dc:b2:70       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:dc:b2:6f       AutoConfig
+--------------------------------------------------------------------------------
+bromyard_community_hospital  !
+?Invalid command
+bromyard_community_hospital  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.5.1       1        STATICLOW                  
+10.128.5.0/24            1/1/6/0/ip       1        LOCAL                      
+bromyard_community_hospital  !
+?Invalid command
+bromyard_community_hospital  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.5.1       0        1          enabled 
+bromyard_community_hospital  !
+?Invalid command
+bromyard_community_hospital  bridge show
+     Orig
+Type VLAN/SLAN     VLAN/SLAN  Bridge                              St  Table Data
+--------------------------------------------------------------------------------------
+tls             Tagged 2046   1-1-99-0-efmbond-2046/bridge        UP  D 00:01:47:30:45:b2
+                                                                      D 00:01:47:34:e0:3b
+                                                                      D 00:01:47:70:6a:b1
+                                                                      D 00:01:47:90:69:c4
+                                                                      D 00:20:85:ff:a4:bd
+                                                                      D 00:e0:d8:14:ab:28
+                                                                      D 00:e0:d8:14:ce:bb
+                                                                      D 54:4a:00:0a:65:40
+tls             Tagged 2046   ipobridge-2046/bridge               UP  D 00:01:47:dc:b2:70
+tls             Tagged 104    1-1-99-0-efmbond-104/bridge         UP  D 54:4a:00:0a:65:40
+tls             Tagged 104    1-1-1-0-eth-104/bridge              UP  D 00:18:18:b5:03:03
+                                                                      D 00:18:18:b5:03:41
+4 bridges displayed
+bromyard_community_hospital  !
+?Invalid command
+bromyard_community_hospital  
+??
+bromyard_community_hospital  
+??
+bromyard_community_hospital  
+??
+bromyard_community_hospital  
+??
+bromyard_community_hospital  
+??
+bromyard_community_hospital 

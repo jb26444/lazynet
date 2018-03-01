@@ -1,0 +1,438 @@
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone year
+service timestamps log datetime msec localtime show-timezone year
+service password-encryption
+no service dhcp
+!
+hostname {{ HOSTNAME }}
+!
+boot-start-marker
+boot-end-marker
+!
+aqm-register-fnf
+!
+logging buffered 100000
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ ACS
+ server name ACS-1
+ server name ACS-2
+ ip vrf forwarding UPDATA
+ ip tacacs source-interface Loopback2047
+!
+aaa authentication banner ^CC
+********************************************************************************
+All logins and commands executed are logged to a central security platform.
+********************************************************************************
+^C
+aaa authentication fail-message ^CC
+********************************************************************************
+The attempted authentication failed, please try again.  If this error persists, 
+please contact the administrator of this system.
+Disconnect NOW if you have not been expressly authorised to use this system.
+By logging onto this system, you accept that your activity may be subject to 
+monitoring for compliance purposes and may be recorded.
+********************************************************************************
+^C
+aaa authentication login default group ACS local
+aaa authentication enable default group ACS enable
+aaa authorization exec default group ACS local 
+aaa authorization commands 15 default group ACS local 
+aaa accounting exec default start-stop group ACS
+aaa accounting commands 15 default start-stop group ACS
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone GMT 0 0
+clock summer-time BST recurring last Sun Mar 1:00 last Sun Oct 2:00
+!
+!
+no ip source-route
+no ip gratuitous-arps
+!
+!
+!
+!
+
+
+!
+ip vrf GHC-COIN
+ description cust:GHC-COIN
+ rd 64725:9
+ route-target export 64725:9
+ route-target import 64725:9
+!
+ip vrf UPDATA
+ description core:Updata Management
+ rd 51551:2047
+ route-target export 51551:2047
+ route-target import 51551:2047
+!
+!
+!
+!
+no ip bootp server
+no ip domain lookup
+ip domain name updata
+ip cef
+login on-failure log every 3
+no ipv6 cef
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+license udi pid C887VA-K9 sn FCZ2116E2KA
+!
+!
+vtp mode transparent
+username solarwinds privilege 15 secret 5 $1$u0Cf$/kjDJVL2EInRh32cOBv7S.
+username admin privilege 15 secret 5 $1$GNeO$AIozqeMCbyCF6wAj0sldr0
+!
+!
+!
+!
+!
+controller VDSL 0
+!
+vlan 100 
+!
+vlan 2047
+ name UPDATA-MGMT
+!
+ip tcp selective-ack
+ip tcp window-size 65535
+ip tcp path-mtu-discovery
+ip tftp source-interface Loopback2047
+ip ssh time-out 60
+ip ssh source-interface Loopback2047
+ip ssh logging events
+ip ssh version 2
+ip ssh dh min size 2048
+ip ssh dscp 56
+ip ssh server algorithm mac hmac-sha1
+ip scp server enable
+!
+class-map match-any NC
+ match dscp cs6 
+ match dscp cs7 
+class-map match-any REALTIME
+ match dscp ef 
+ match dscp cs5 
+class-map match-any PSN-APP-4
+ match dscp af11 
+ match dscp af12 
+ match dscp af13 
+ match dscp cs1 
+class-map match-any PSN-APP-1
+ match dscp af41 
+ match dscp af42 
+ match dscp af43 
+ match dscp cs4 
+class-map match-any PSN-APP-2
+ match dscp af31 
+ match dscp af32 
+ match dscp af33 
+ match dscp cs3 
+class-map match-any PSN-APP-3
+ match dscp af21 
+ match dscp af22 
+ match dscp af23 
+ match dscp cs2 
+!
+policy-map CPE-QOS-PSN-PE-OUT
+ class NC
+  bandwidth percent 2 
+ class REALTIME
+  police cir percent 10
+   conform-action transmit 
+   exceed-action drop 
+  priority
+ class PSN-APP-1
+  bandwidth percent 22 
+ class PSN-APP-2
+  bandwidth percent 24 
+ class PSN-APP-3
+  bandwidth percent 12 
+ class PSN-APP-4
+  bandwidth percent 5 
+ class class-default
+  bandwidth percent 25 
+policy-map CPE-QOS-PSN-CUSTOMER-IN
+ class NC
+  set dscp default
+ class REALTIME
+ class PSN-APP-1
+ class PSN-APP-2
+ class PSN-APP-3
+ class PSN-APP-4
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description core:MGMT GRE Loopback
+ ip address {{ Loopback0 }} 255.255.255.255
+!
+interface Loopback1
+ description cust:Customer GRE Loopback
+ ip address {{ Loopback1 }} 255.255.255.255
+!
+interface Loopback2047
+ ip vrf forwarding UPDATA
+ ip address {{ MGMT2047 }} 255.255.255.255
+!
+interface Tunnel{{ MGMTTUNNEL }}
+ description core:Management Tunnel
+ ip vrf forwarding UPDATA
+ ip address {{ MGMTP2PUPDATACPE }} 255.255.255.254
+ no ip unreachables
+ ip tcp adjust-mss 1414
+ ntp disable
+ tunnel source Loopback0
+ tunnel destination 46.183.192.226
+!
+interface Tunnel{{ CUSTTUNNEL }}
+ description cust:GHC-COIN Traffic Tunnel
+ ip vrf forwarding GHC-COIN
+ ip address {{ CUST2CUSTCPE }} 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip tcp adjust-mss 1414
+ ntp disable
+ tunnel source Loopback1
+ tunnel destination 46.183.192.226
+!
+interface ATM0
+ description core:COLINDALE cid:01452308001
+ no ip address
+ no atm ilmi-keepalive
+!
+interface ATM0.1 point-to-point
+ pvc 0/38 
+  encapsulation aal5mux ppp dialer
+  dialer pool-member 1
+ !
+!
+interface Ethernet0
+ no ip address
+ shutdown
+!
+interface FastEthernet0
+ description cust:GHC-COIN cid:LOCAL
+ no ip address
+ shutdown
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet1
+ description cust:GHC-COIN cid:LOCAL
+ switchport mode trunk
+ no ip address
+ shutdown
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet2
+ description CUSTOMER PORT
+ switchport access vlan 100
+ no ip address
+ shutdown
+ no cdp enable
+ spanning-tree portfast
+!
+interface FastEthernet3
+ description CUSTOMER PORT
+ switchport access vlan 100
+ no ip address
+ shutdown
+ no cdp enable
+ spanning-tree portfast
+!
+interface Vlan1
+ description cust:<CUSTOMER_VRF>
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ntp disable
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+interface Dialer0
+ description core:COLINDALE cid:01452308001
+ bandwidth 6500
+ ip address negotiated
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ encapsulation ppp
+ dialer pool 1
+ ppp chap hostname {{ ADSLUSERNAME }}
+ ppp chap password {{ ADSLPASSWORD }}
+ no cdp enable
+!
+router bgp 64726
+ bgp log-neighbor-changes
+ !
+ address-family ipv4 vrf GHC-COIN
+  bgp router-id auto-assign
+  redistribute connected
+  redistribute static
+  neighbor {{ CUST1UPDATAPE }} remote-as 51551
+  neighbor {{ CUST1UPDATAPE }} password 7 06212702016D592B205A313B5F47
+  neighbor {{ CUST1UPDATAPE }} activate
+  neighbor {{ CUST1UPDATAPE }} next-hop-self
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  bgp router-id auto-assign
+  redistribute connected
+  neighbor {{ MGMTP2PUPDATAPE }} remote-as 51551
+  neighbor {{ MGMTP2PUPDATAPE }} password 7 06212702016D592B205A313B5F47
+  neighbor {{ MGMTP2PUPDATAPE }} activate
+  neighbor {{ MGMTP2PUPDATAPE }} next-hop-self
+ exit-address-family
+!
+no ip forward-protocol nd
+no ip forward-protocol udp
+no ip forward-protocol udp tftp
+no ip forward-protocol udp nameserver
+no ip forward-protocol udp domain
+no ip forward-protocol udp time
+no ip forward-protocol udp netbios-ns
+no ip forward-protocol udp netbios-dgm
+no ip forward-protocol udp tacacs
+no ip http server
+no ip http secure-server
+!
+ip bgp-community new-format
+!
+ip route 0.0.0.0 0.0.0.0 Dialer0
+ip tacacs source-interface Loopback2047
+!
+ip access-list standard Secure-SNMP
+ permit 192.168.30.0 0.0.1.255
+ deny   any
+ip access-list standard core-ipv4-ntp-in-allow
+ remark UPDATA-NTP-SERVERS
+ permit 192.168.30.22
+ permit 192.168.30.20
+ip access-list standard core-ipv4-ntp-in-deny
+ remark DENY-NTP-QUERIES
+ deny   any
+!
+ip access-list extended Secure-VTY
+ permit tcp 192.168.30.0 0.0.1.255 any eq 22 telnet
+ deny   ip any any
+!
+logging source-interface Loopback2047 vrf UPDATA
+logging host 192.168.30.41 vrf UPDATA
+logging host 192.168.30.42 vrf UPDATA
+no cdp run
+!
+snmp-server group solarwinds v3 priv access Secure-SNMP
+snmp-server trap-source Loopback2047
+snmp-server location GHC
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps ospf state-change
+snmp-server enable traps envmon
+snmp-server enable traps flash insertion removal
+snmp-server enable traps vstack operation
+snmp-server enable traps bgp
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps fru-ctrl
+snmp-server enable traps hsrp
+snmp-server enable traps cpu threshold
+tacacs-server directed-request
+tacacs server ACS-1
+ address ipv4 192.168.30.50
+ key 7 0806646D442E2439
+tacacs server ACS-2
+ address ipv4 192.168.30.51
+ key 7 01342E27163C2721
+!
+!
+!
+control-plane
+!
+!
+!
+mgcp behavior rsip-range tgcp-only
+mgcp behavior comedia-role none
+mgcp behavior comedia-check-media-src disable
+mgcp behavior comedia-sdp-force disable
+!
+mgcp profile default
+!
+!
+!
+!
+banner login ^CCCCC
+********************************************************************************
+This system is the property of Updata Infrastructure UK Ltd, unauthorised
+connection and/or use is a criminal offence under the Computer Misuse Act 1990.
+Disconnect NOW if you have not been expressly authorised to use this system.
+By logging onto this system, you accept that your activity may be subject to
+monitoring for compliance purposes and may be recorded.
+********************************************************************************
+^C
+!
+line con 0
+ session-timeout 30 
+ exec-timeout 30 0
+ logging synchronous
+ no modem enable
+line aux 0
+line vty 0 4
+ session-timeout 30 
+ access-class Secure-VTY in vrf-also
+ exec-timeout 30 0
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ session-timeout 30 
+ access-class Secure-VTY in vrf-also
+ exec-timeout 30 0
+ logging synchronous
+ transport input ssh
+!
+scheduler allocate 20000 1000
+ntp logging
+ntp source Loopback2047
+ntp access-group peer core-ipv4-ntp-in-allow
+ntp access-group serve core-ipv4-ntp-in-deny
+ntp access-group serve-only core-ipv4-ntp-in-deny
+ntp access-group query-only core-ipv4-ntp-in-deny
+ntp update-calendar
+ntp server vrf UPDATA 192.168.31.22 prefer
+ntp server vrf UPDATA 192.168.30.22
+!
+end
+
+RADIUS
+
+

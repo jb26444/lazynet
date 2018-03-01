@@ -1,0 +1,167 @@
+
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1913 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.1:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC005 - HEREFORD EX*****
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.515
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 515
+ vrf forwarding HCC-CORPORATE
+ --More--          ip address 10.31.250.62 255.255.255.252
+!
+interface GigabitEthernet0/1
+ description ****CORPORATE HANDOVER*****
+ vrf forwarding HCC-CORPORATE
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+interface GigabitEthernet0/1.355
+ description ****CORPORATE - VLAN 355*****
+ encapsulation dot1Q 355
+ vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.169 255.255.255.252
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.61
+ip route vrf HCC-CORPORATE 10.16.0.168 255.255.255.252 10.16.0.170
+ip route vrf HCC-CORPORATE 10.18.30.0 255.255.255.192 10.16.0.170
+ip route vrf HCC-CORPORATE 10.20.30.0 255.255.255.192 10.16.0.170
+ip route vrf HCC-CORPORATE 10.20.30.64 255.255.255.192 10.16.0.170
+ip route vrf HCC-CORPORATE 10.20.30.128 255.255.255.192 10.16.0.170
+ip route vrf HCC-CORPORATE 10.20.30.192 255.255.255.192 10.16.0.170
+ --More--         
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 167 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.1:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+end
+
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.61 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.61
+      10.0.0.0/8 is variably subnetted, 16 subnets, 4 masks
+C        10.16.0.168/30 is directly connected, GigabitEthernet0/1.355
+L        10.16.0.169/32 is directly connected, GigabitEthernet0/1.355
+S        10.18.30.0/26 [1/0] via 10.16.0.170
+S        10.20.30.0/26 [1/0] via 10.16.0.170
+S        10.20.30.64/26 [1/0] via 10.16.0.170
+S        10.20.30.128/26 [1/0] via 10.16.0.170
+S        10.20.30.192/26 [1/0] via 10.16.0.170
+S        10.21.30.0/24 [1/0] via 10.16.0.170
+ --More--         S        10.23.30.0/26 [1/0] via 10.16.0.170
+S        10.24.30.0/26 [1/0] via 10.16.0.170
+S        10.24.30.64/26 [1/0] via 10.16.0.170
+S        10.24.30.128/26 [1/0] via 10.16.0.170
+S        10.24.30.192/26 [1/0] via 10.16.0.170
+S        10.25.30.0/26 [1/0] via 10.16.0.170
+C        10.31.250.60/30 is directly connected, GigabitEthernet0/0.515
+L        10.31.250.62/32 is directly connected, GigabitEthernet0/0.515
+      172.29.0.0/32 is subnetted, 1 subnets
+S        172.29.99.11 [1/0] via 10.16.0.170
+HCC_MEDIA_CENTRE#
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# !
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE# 
+HCC_MEDIA_CENTRE#

@@ -1,0 +1,148 @@
+
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 45 bytes
+ip vrf HCC-CORPORATE
+ rd 51551:2700
+!
+!
+end
+
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 45 bytes
+ip vrf HCC-EDUCATION
+ rd 51551:2710
+!
+!
+end
+
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 572 bytes
+ip vrf HCC-PUBLIC
+ rd 51551:2720
+!
+!
+interface Tunnel1
+ description **** CUSTOMER-TUNNEL ****
+ ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.255.66 255.255.255.252
+ ip mtu 1438
+ ip tcp adjust-mss 1350
+ tunnel source Loopback1
+ tunnel destination 46.183.192.226
+!
+interface Vlan100
+ description ***CUSTOMER VLAN - HANDOVER PUBLIC VRF***
+ ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.53.5 255.255.255.252
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-PUBLIC 0.0.0.0 0.0.0.0 10.31.255.65
+ --More--         ip route vrf HCC-PUBLIC 10.5.198.0 255.255.255.0 10.31.53.6
+end
+
+Weobley_Library_2#
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.255.65 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.255.65
+      10.0.0.0/8 is variably subnetted, 5 subnets, 3 masks
+S        10.5.198.0/24 [1/0] via 10.31.53.6
+C        10.31.53.4/30 is directly connected, Vlan100
+L        10.31.53.5/32 is directly connected, Vlan100
+C        10.31.255.64/30 is directly connected, Tunnel1
+L        10.31.255.66/32 is directly connected, Tunnel1
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+Weobley_Library_2# 
+Weobley_Library_2# !
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2# 
+Weobley_Library_2#

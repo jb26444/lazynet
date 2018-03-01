@@ -1,0 +1,57 @@
+Ledbury_Community_Hospital  !
+?Invalid command
+Ledbury_Community_Hospital  interface show
+3 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.7.101/24     00:01:47:22:8d:5a       ipobridge-2046
+1/1/6/0/ip     UP      1 10.206.7.100/24     00:01:47:22:8d:5a       ipobridge-2047
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:22:8d:bc       AutoConfig
+--------------------------------------------------------------------------------
+Ledbury_Community_Hospital  !
+?Invalid command
+Ledbury_Community_Hospital  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.7.1       1        STATICLOW                  
+10.206.7.0/24            1/1/6/0/ip       1        LOCAL                      
+10.128.7.0/24            1/1/6/0/ip       1        LOCAL                      
+Ledbury_Community_Hospital  !
+?Invalid command
+Ledbury_Community_Hospital  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.7.1       0        1          enabled 
+Ledbury_Community_Hospital  !
+?Invalid command
+Ledbury_Community_Hospital  bridge show
+Type VLAN        Bridge                         St  Table Data
+--------------------------------------------------------------------------------------
+tls Tagged 105   1-1-99-0-efmbond-105/bridge    UP  D b0:00:b4:6b:11:c0
+tls Tagged 105   1-1-1-0-eth-105/bridge         UP  D 00:1a:6c:8b:dc:83
+                                                    D 00:1a:6c:8b:dc:c2
+tls            7 1-1-99-0-efmbond/bridge        UP  
+tls Tagged 2046  1-1-99-0-efmbond-2046/bridge   UP  D 00:01:47:30:4c:e2
+                                                    D 00:01:47:48:b1:1a
+                                                    D 00:01:47:a4:96:ba
+                                                    D 00:01:47:a4:96:d8
+                                                    D 00:20:85:ff:a5:d9
+                                                    D 00:e0:d8:14:82:f8
+                                                    D 00:e0:d8:17:2a:cb
+                                                    D b0:00:b4:6b:11:c0
+tls Tagged 2046  ipobridge-2046/bridge          UP  D 00:01:47:22:8d:5a
+Ledbury_Community_Hospital  !
+?Invalid command
+Ledbury_Community_Hospital  
+??
+Ledbury_Community_Hospital  
+??
+Ledbury_Community_Hospital  
+??
+Ledbury_Community_Hospital  
+??
+Ledbury_Community_Hospital  
+??
+Ledbury_Community_Hospital 

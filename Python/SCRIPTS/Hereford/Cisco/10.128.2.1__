@@ -1,0 +1,315 @@
+
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 2464 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.2:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface Vlan301
+ description ***KINGTON COURT EFM - CORPORATE VRF***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.97.0.57 255.255.255.248
+!
+interface Vlan307
+ description ***LADY HAWKINS EFM - CORPORATE VRF***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.97.0.33 255.255.255.248
+!
+interface Vlan310
+ --More--          description ***KINGTON LIBRARY EFM - EDUCATION VRF***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.97.0.1 255.255.255.248
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-CORPORATE
+  redistribute connected
+  redistribute static
+ exit-address-family
+!
+ip route vrf HCC-CORPORATE 10.97.0.0 255.255.255.248 10.97.0.2
+ip route vrf HCC-CORPORATE 10.97.0.32 255.255.255.248 10.31.1.26
+ip route vrf HCC-CORPORATE 10.97.0.32 255.255.255.248 10.97.0.34
+ip route vrf HCC-CORPORATE 10.97.0.56 255.255.255.248 10.97.0.58
+ip route vrf HCC-CORPORATE 10.98.14.0 255.255.255.0 10.97.0.2
+ip route vrf HCC-CORPORATE 10.98.17.0 255.255.255.0 10.31.1.26
+ip route vrf HCC-CORPORATE 10.98.17.0 255.255.255.0 10.97.0.34
+ip route vrf HCC-CORPORATE 10.100.14.0 255.255.255.0 10.97.0.2
+ip route vrf HCC-CORPORATE 10.100.17.0 255.255.255.0 10.31.1.26
+ip route vrf HCC-CORPORATE 10.100.17.0 255.255.255.0 10.97.0.34
+ip route vrf HCC-CORPORATE 10.100.18.0 255.255.255.0 10.97.0.58
+ip route vrf HCC-CORPORATE 10.101.14.0 255.255.255.0 10.97.0.2
+ --More--         
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 2151 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.2:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+interface Vlan502
+ description *** WEOBLEY - EDUCATION VRF ***
+ vrf forwarding HCC-EDUCATION
+ ip address 10.31.0.9 255.255.255.252
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-EDUCATION
+  redistribute connected
+  redistribute static
+ exit-address-family
+ --More--         !
+ip route vrf HCC-EDUCATION 10.96.0.0 255.255.255.252 10.31.0.10
+ip route vrf HCC-EDUCATION 10.96.0.4 255.255.255.252 10.31.0.10
+ip route vrf HCC-EDUCATION 10.98.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.98.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.99.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.99.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.100.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.100.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.101.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.101.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.102.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.102.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.103.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.103.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.104.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.104.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.105.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.105.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.106.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.106.19.0 255.255.255.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.107.0.0 255.255.252.0 10.31.0.10
+ip route vrf HCC-EDUCATION 10.108.0.0 255.255.252.0 10.31.0.10
+ --More--         
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+Kington-WAN-3600# 
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 490 bytes
+vrf definition HCC-PUBLIC
+ rd 10.4.9.2:2720
+ !
+ address-family ipv4
+  route-target export 51551:2720
+  route-target import 51551:2720
+ exit-address-family
+!
+!
+interface Vlan363
+ description ***KINGTON LIBRARY EFM - PUBLIC VRF***
+ vrf forwarding HCC-PUBLIC
+ ip address 10.31.60.13 255.255.255.252
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-PUBLIC
+  redistribute connected
+  redistribute static
+ exit-address-family
+ --More--         !
+ip route vrf HCC-PUBLIC 10.5.201.0 255.255.255.0 10.31.60.14
+end
+
+Kington-WAN-3600#
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+Kington-WAN-3600# 
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.4.9.6 to network 0.0.0.0
+
+B*    0.0.0.0/0 [200/2] via 10.4.9.6, 2w3d
+      10.0.0.0/8 is variably subnetted, 519 subnets, 8 masks
+B        10.16.0.0/29 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.108/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.112/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.116/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.120/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.124/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.132/30 [200/0] via 10.4.9.1, 2w3d
+ --More--         B        10.16.0.148/30 [200/0] via 10.4.9.1, 2w3d
+B        10.16.0.168/30 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.0/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.24/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.32/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.48/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.96/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.120/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.136/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.144/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.200/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.208/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.216/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.224/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.248/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.8/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.16/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.32/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.40/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.48/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.72/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.96/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.104/29 [200/0] via 10.4.9.1, 2w3d
+ --More--         
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.4.9.6 to network 0.0.0.0
+
+B*    0.0.0.0/0 [200/2] via 10.4.9.6, 2w3d
+      10.0.0.0/8 is variably subnetted, 88 subnets, 4 masks
+B        10.16.0.176/30 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.8/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.176/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.0.240/29 [200/0] via 10.4.9.1, 2w3d
+B        10.17.1.152/29 [200/0] via 10.4.9.1, 2w3d
+B        10.18.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.19.32.0/22 [200/0] via 10.4.9.1, 2w3d
+ --More--         B        10.20.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.21.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.22.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.22.74.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.22.76.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.22.94.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.22.103.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.23.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.24.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.26.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.27.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.28.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.30.32.0/22 [200/0] via 10.4.9.1, 2w3d
+B        10.31.5.20/30 [200/0] via 10.4.9.3, 2w3d
+B        10.31.248.144/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.4/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.16/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.64/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.76/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.100/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.250.124/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.252.60/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.252.72/30 [200/0] via 10.4.9.1, 2w3d
+ --More--         
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+Kington-WAN-3600# 
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.4.9.6 to network 0.0.0.0
+
+B*    0.0.0.0/0 [200/0] via 10.4.9.6, 2w3d
+      10.0.0.0/8 is variably subnetted, 39 subnets, 5 masks
+B        10.5.50.0/23 [200/0] via 10.4.9.1, 2w3d
+B        10.5.192.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.5.193.0/24 [200/0] via 10.4.9.7, 2w3d
+B        10.5.194.0/24 [200/0] via 10.4.9.9, 2w3d
+B        10.5.195.0/24 [200/0] via 10.4.9.5, 2w3d
+B        10.5.196.0/24 [200/0] via 10.4.9.3, 2w3d
+B        10.5.197.0/24 [200/0] via 10.4.9.1, 4d00h
+ --More--         B        10.5.198.0/24 [200/0] via 10.4.9.1, 21:40:20
+B        10.5.199.0/24 [200/0] via 10.4.9.1, 21:40:20
+B        10.5.200.0/24 [200/0] via 10.4.9.1, 2w3d
+S        10.5.201.0/24 [1/0] via 10.31.60.14
+B        10.5.202.0/24 [200/0] via 10.4.9.10, 2w3d
+B        10.5.204.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.5.205.0/24 [200/0] via 10.4.9.1, 2w3d
+B        10.31.52.20/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.52.60/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.53.0/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.53.4/30 [200/0] via 10.4.9.1, 21:40:20
+B        10.31.53.8/30 [200/0] via 10.4.9.1, 21:40:20
+B        10.31.53.12/30 [200/0] via 10.4.9.1, 4d00h
+B        10.31.53.16/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.53.24/29 [200/0] via 10.4.9.1, 2w3d
+B        10.31.54.8/30 [200/0] via 10.4.9.10, 2w3d
+B        10.31.54.36/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.54.56/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.54.68/30 [200/0] via 10.4.9.1, 2w3d
+B        10.31.56.88/30 [200/0] via 10.4.9.1, 2w3d
+C        10.31.60.12/30 is directly connected, Vlan363
+L        10.31.60.13/32 is directly connected, Vlan363
+B        10.31.66.24/30 [200/0] via 10.4.9.3, 2w3d
+ --More--         
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+Kington-WAN-3600# 
+Kington-WAN-3600# !
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600# 
+Kington-WAN-3600#

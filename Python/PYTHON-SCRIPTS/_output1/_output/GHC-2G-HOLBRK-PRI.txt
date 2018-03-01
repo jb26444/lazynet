@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 551 description GHC-COIN::UPDATA:GHC-2G-HOLBRK-PRI:xe-1/2/0.201:EoFTTC8397:20m;
+set interfaces xe-1/2/0 unit 551 vlan-tags outer 43
+set interfaces xe-1/2/0 unit 551 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 551 family inet address 10.50.25.138/31
+
+set routing-instances UPDATA interface xe-1/2/0.551
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.139 description GHC-2G-HOLBRK-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.139 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.139 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.139 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 552 description GHC-COIN::GHC-COIN:GHC-2G-HOLBRK-PRI:xe-1/2/0.202:EoFTTC8397:20m;
+set interfaces xe-1/2/0 unit 552 vlan-tags outer 43
+set interfaces xe-1/2/0 unit 552 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 552 family inet address 10.50.25.206/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.552
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.207
+
+
+description CUSOMER:CIRCUIT TYPE:VRF:CPE HOSTNAME & MODEL:GiX.201:TTBXXXXXXX:Xm;
+
+
+

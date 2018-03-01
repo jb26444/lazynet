@@ -1,0 +1,137 @@
+
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 855 bytes
+ip vrf HCC-CORPORATE
+ rd 51551:2700
+!
+!
+interface Tunnel1
+ description **** CUSTOMER-TUNNEL ****
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.255.34 255.255.255.252
+ ip mtu 1438
+ ip tcp adjust-mss 1350
+ tunnel source Loopback1
+ tunnel destination 46.183.192.226
+!
+interface Vlan100
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.61.14.1 255.255.255.252
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.255.33
+ip route vrf HCC-CORPORATE 10.52.14.0 255.255.255.0 10.61.14.2
+ --More--         ip route vrf HCC-CORPORATE 10.53.14.0 255.255.255.0 10.61.14.2
+ip route vrf HCC-CORPORATE 10.55.14.0 255.255.255.0 10.61.14.2
+ip route vrf HCC-CORPORATE 10.57.14.0 255.255.255.0 10.61.14.2
+ip route vrf HCC-CORPORATE 10.61.14.0 255.255.255.252 10.61.14.2
+ip route vrf HCC-CORPORATE 172.29.100.182 255.255.255.255 10.61.14.2
+end
+
+Colwall_Library#
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 45 bytes
+ip vrf HCC-EDUCATION
+ rd 51551:2710
+!
+!
+end
+
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.255.33 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.255.33
+      10.0.0.0/8 is variably subnetted, 8 subnets, 3 masks
+C        10.31.255.32/30 is directly connected, Tunnel1
+L        10.31.255.34/32 is directly connected, Tunnel1
+S        10.52.14.0/24 [1/0] via 10.61.14.2
+S        10.53.14.0/24 [1/0] via 10.61.14.2
+S        10.55.14.0/24 [1/0] via 10.61.14.2
+S        10.57.14.0/24 [1/0] via 10.61.14.2
+C        10.61.14.0/30 is directly connected, Vlan100
+L        10.61.14.1/32 is directly connected, Vlan100
+ --More--               172.29.0.0/32 is subnetted, 1 subnets
+S        172.29.100.182 [1/0] via 10.61.14.2
+Colwall_Library#
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+Colwall_Library# 
+Colwall_Library# !
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library# 
+Colwall_Library#

@@ -1,0 +1,22 @@
+set interfaces xe-1/2/0 unit 581 description GHC-GCS-BROCCC-PRI
+set interfaces xe-1/2/0 unit 581 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 581 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 581 family inet address 10.50.25.118/31
+
+set routing-instances UPDATA interface xe-1/2/0.581
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.119 description GHC-GCS-BROCCC-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.119 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.119 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.119 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 582 description GHC-GCS-BROCCC-PRI
+set interfaces xe-1/2/0 unit 582 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 582 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 582 family inet address 10.50.25.186/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.582
+
+
+set routing-instances GHC-COIN protocols bgp group GHC-COIN-CPE neighbor 10.50.25.187

@@ -1,0 +1,55 @@
+Kington_Court_Hospital  !
+?Invalid command
+Kington_Court_Hospital  interface show
+4 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/2/0/ip     DOWN    1 10.112.95.1/24      00:01:47:22:9e:90       1-1-2-0-eth
+1/1/6/0/ip     UP      1 10.128.2.100/24     00:01:47:22:9e:8f       ipobridge-2046
+1/1/6/0/ip     UP      1 10.206.2.104/24     00:01:47:22:9e:8f       ipobridge-2047
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:22:9e:f1       AutoConfig
+--------------------------------------------------------------------------------
+Kington_Court_Hospital  !
+?Invalid command
+Kington_Court_Hospital  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.2.1       1        STATICLOW                  
+10.206.2.0/24            1/1/6/0/ip       1        LOCAL                      
+10.128.2.0/24            1/1/6/0/ip       1        LOCAL                      
+Kington_Court_Hospital  !
+?Invalid command
+Kington_Court_Hospital  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.2.1       0        1          enabled 
+Kington_Court_Hospital  !
+?Invalid command
+Kington_Court_Hospital  bridge show
+Type VLAN        Bridge                         St  Table Data
+--------------------------------------------------------------------------------------
+tls Tagged 107   1-1-99-0-efmbond-107/bridge    UP  D 54:4a:00:0a:7c:c0
+tls Tagged 107   1-1-1-0-eth-107/bridge         UP  D 00:1a:6c:8c:41:83
+                                                    D 00:1a:6c:8c:41:c1
+tls            7 1-1-99-0-efmbond/bridge        UP  
+tls Tagged 2046  1-1-99-0-efmbond-2046/bridge   UP  D 00:01:47:31:dc:8d
+                                                    D 00:01:47:a4:96:dd
+                                                    D 00:20:85:ff:a4:c8
+                                                    D 00:e0:d8:15:11:90
+                                                    D 54:4a:00:0a:7c:c0
+tls Tagged 2046  ipobridge-2046/bridge          UP  D 00:01:47:22:9e:8f
+Kington_Court_Hospital  !
+?Invalid command
+Kington_Court_Hospital  
+??
+Kington_Court_Hospital  
+??
+Kington_Court_Hospital  
+??
+Kington_Court_Hospital  
+??
+Kington_Court_Hospital  
+??
+Kington_Court_Hospital 

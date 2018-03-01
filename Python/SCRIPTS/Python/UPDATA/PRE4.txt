@@ -1,0 +1,1265 @@
+
+PE1.AGG1.CHEL-EXCH.GHC.UPDATA.NET#term len 0
+PE1.AGG1.CHEL-EXCH.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 052C2E2C6C6F1E3B4A
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.1
+ bgp log-neighbor-changes
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.CHEL-EXCH.GHC.UPDATA.NET#
+PE1.AGG1.CHEL-GEN-HOS.GHC.UPDATA.NET#term len 0
+PE1.AGG1.CHEL-GEN-HOS.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 13223F31462F541878
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.2
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.CHEL-GEN-HOS.GHC.UPDATA.NET#
+PE2.AGG2.CHEL-GEN-HOS.GHC.UPDATA.NET#term len 0
+PE2.AGG2.CHEL-GEN-HOS.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 02212C7846255F131F
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.3
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE2.AGG2.CHEL-GEN-HOS.GHC.UPDATA.NET#
+PE1.AGG1.EJC.GHC.UPDATA.NET#term len 0
+PE1.AGG1.EJC.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 13223F31462F541878
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.4
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.EJC.GHC.UPDATA.NET#
+********************************************************************************
+This device logs all logins and commands executed to a central security plaform.
+********************************************************************************
+
+PE2.AGG2.EJC.GHC.UPDATA.NET#term len 0
+PE2.AGG2.EJC.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 13223F31462F541878
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.5
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE2.AGG2.EJC.GHC.UPDATA.NET#
+PE1.AGG1.GRH.GHC.UPDATA.NET#term len 0
+PE1.AGG1.GRH.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 096B662A5426472058
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.6
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.GRH.GHC.UPDATA.NET#
+PE2.AGG2.GRH.GHC.UPDATA.NET#term len 0
+PE2.AGG2.GRH.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 123E2D345F285C3679
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.7
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ neighbor 10.50.2.53 remote-as 51551
+ neighbor 10.50.2.53 description ***PEERING TO THN - OPT B TTB 1GBT***
+ neighbor 10.50.2.53 password 7 14112A1E55521F0A227B261633122C27
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+  no neighbor 10.50.2.53 activate
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.50.2.53 activate
+  neighbor 10.50.2.53 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf GHC-2GT
+  redistribute connected
+  redistribute static
+  neighbor 100.64.7.6 remote-as 64726
+  neighbor 100.64.7.6 description ***WATERWEllS HSRP PRIMARY CPE**
+  neighbor 100.64.7.6 password 7 06212702016D592B205A313B5F47
+  neighbor 100.64.7.6 activate
+  default-information originate
+ exit-address-family
+ !
+ address-family ipv4 vrf GHC-COIN
+  redistribute connected
+  redistribute static
+  default-information originate
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+  neighbor 10.205.107.2 remote-as 64726
+  neighbor 10.205.107.2 password 7 123E2D345F285C360F6607186076
+  neighbor 10.205.107.2 activate
+  neighbor 10.205.107.2 prefix-list MGMT out
+  neighbor 10.205.107.6 remote-as 64726
+  neighbor 10.205.107.6 password 7 01342E271628563D04016D394A46
+  neighbor 10.205.107.6 activate
+  neighbor 10.205.107.6 prefix-list MGMT out
+ exit-address-family
+PE2.AGG2.GRH.GHC.UPDATA.NET#
+PE1.AGG1.GR-EXCH.GHC.UPDATA.NET#term len 0
+PE1.AGG1.GR-EXCH.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 1535232F49097B167B
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.8
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.GR-EXCH.GHC.UPDATA.NET#
+********************************************************************************
+This device logs all logins and commands executed to a central security plaform.
+********************************************************************************
+
+PE1.AGG1.CIRENC.GHC.UPDATA.NET#term len 0
+PE1.AGG1.CIRENC.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 14303A2841277A1977
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.9
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.10 inherit peer-session IBGP
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-IPV4
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.10 activate
+  neighbor 10.4.25.10 send-community extended
+  neighbor 10.4.25.10 inherit peer-policy AGG-IBGP-VPNV4
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE1.AGG1.CIRENC.GHC.UPDATA.NET#
+PE2.AGG2.CIRENC.GHC.UPDATA.NET#term len 0
+PE2.AGG2.CIRENC.GHC.UPDATA.NET# sh run | sec router bgp 
+router bgp 64725
+ template peer-policy AGG-IBGP-IPV4
+  route-map AGG-IBGP-IPV4-OUT out
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-IPV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community
+  send-label
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV4
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy AGG-IBGP-VPNV6
+  advertisement-interval 0
+  next-hop-self
+  slow-peer detection 
+  send-community both
+ exit-peer-policy
+ !
+ template peer-policy eBGP-CPE
+  prefix-list BOGONS-IPV4 in
+  next-hop-self
+  maximum-prefix 200 80
+ exit-peer-policy
+ !
+ template peer-session eBGP-CPE
+  description CPE eBGP Peerings
+ exit-peer-session
+ !
+ template peer-session IBGP
+  remote-as 64725
+  description IBGP Peerings
+  password 7 13223F31462F541878
+  update-source Loopback0
+ exit-peer-session
+ !
+ bgp router-id 10.4.25.10
+ bgp log-neighbor-changes
+ neighbor 10.4.25.1 inherit peer-session IBGP
+ neighbor 10.4.25.2 inherit peer-session IBGP
+ neighbor 10.4.25.3 inherit peer-session IBGP
+ neighbor 10.4.25.4 inherit peer-session IBGP
+ neighbor 10.4.25.5 inherit peer-session IBGP
+ neighbor 10.4.25.6 inherit peer-session IBGP
+ neighbor 10.4.25.7 inherit peer-session IBGP
+ neighbor 10.4.25.8 inherit peer-session IBGP
+ neighbor 10.4.25.9 inherit peer-session IBGP
+ neighbor 10.50.8.17 remote-as 51551
+ neighbor 10.50.8.17 description ***PEERING TO LD5 - OPT B TTB 1GBT***
+ neighbor 10.50.8.17 password 7 0302631E5F59146D485A0C260613203D
+ !
+ address-family ipv4
+  bgp nexthop trigger delay 1
+  redistribute connected route-map REDIST-CONNECTED-TO-BGP-IPV4
+  redistribute static route-map REDIST-STATIC-TO-BGP-IPV4
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-IPV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-IPV4
+  no neighbor 10.50.8.17 activate
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp nexthop trigger delay 1
+  neighbor 10.4.25.1 activate
+  neighbor 10.4.25.1 send-community extended
+  neighbor 10.4.25.1 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.2 activate
+  neighbor 10.4.25.2 send-community extended
+  neighbor 10.4.25.2 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.3 activate
+  neighbor 10.4.25.3 send-community extended
+  neighbor 10.4.25.3 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.4 activate
+  neighbor 10.4.25.4 send-community extended
+  neighbor 10.4.25.4 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.5 activate
+  neighbor 10.4.25.5 send-community extended
+  neighbor 10.4.25.5 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.6 activate
+  neighbor 10.4.25.6 send-community extended
+  neighbor 10.4.25.6 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.7 activate
+  neighbor 10.4.25.7 send-community extended
+  neighbor 10.4.25.7 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.8 activate
+  neighbor 10.4.25.8 send-community extended
+  neighbor 10.4.25.8 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.4.25.9 activate
+  neighbor 10.4.25.9 send-community extended
+  neighbor 10.4.25.9 inherit peer-policy AGG-IBGP-VPNV4
+  neighbor 10.50.8.17 activate
+  neighbor 10.50.8.17 send-community extended
+ exit-address-family
+ !
+ address-family ipv4 vrf UPDATA
+  redistribute connected
+ exit-address-family
+PE2.AGG2.CIRENC.GHC.UPDATA.NET#

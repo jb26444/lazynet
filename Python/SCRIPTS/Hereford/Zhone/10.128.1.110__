@@ -1,0 +1,59 @@
+Youth_offenders  !
+?Invalid command
+Youth_offenders  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.1.110/24     00:01:47:34:e5:ef       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:34:e6:51       AutoConfig
+--------------------------------------------------------------------------------
+Youth_offenders  !
+?Invalid command
+Youth_offenders  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.1.1       1        STATICLOW                  
+10.128.1.0/24            1/1/6/0/ip       1        LOCAL                      
+Youth_offenders  !
+?Invalid command
+Youth_offenders  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.1.1       0        1          enabled 
+Youth_offenders  !
+?Invalid command
+Youth_offenders  bridge show
+Type VLAN        Bridge                         St  Table Data
+--------------------------------------------------------------------------------------
+tls Tagged 2046  1-1-99-0-efmbond-2046/bridge   UP  D 00:01:47:1c:6f:3d
+                                                    D 00:01:47:22:95:1b
+                                                    D 00:01:47:22:96:a6
+                                                    D 00:01:47:22:97:ff
+                                                    D 00:01:47:22:9d:8b
+                                                    D 00:01:47:30:3a:9a
+                                                    D 00:01:47:34:e5:3b
+                                                    D 00:01:47:4a:40:b6
+                                                    D 00:01:47:dc:b1:8f
+                                                    D 00:e0:d8:11:9a:95
+                                                    D 54:4a:00:0a:82:c0
+tls Tagged 2046  ipobridge-2046/bridge          UP  D 00:01:47:34:e5:ef
+tls Tagged 126   1-1-99-0-efmbond-126/bridge    UP  D 54:4a:00:0a:82:c0
+tls Tagged 126   1-1-1-0-eth-126/bridge         UP  D 70:d3:79:af:f8:01
+                                                    D 70:d3:79:af:f8:41
+tls Tagged 526   1-1-99-0-efmbond-526/bridge    UP  
+tls Tagged 526   1-1-2-0-eth-526/bridge         DWN 
+Youth_offenders  !
+?Invalid command
+Youth_offenders  
+??
+Youth_offenders  
+??
+Youth_offenders  
+??
+Youth_offenders  
+??
+Youth_offenders  
+??
+Youth_offenders 

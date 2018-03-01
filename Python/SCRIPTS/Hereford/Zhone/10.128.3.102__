@@ -1,0 +1,59 @@
+Leominster_Community_Hospital  !
+?Invalid command
+Leominster_Community_Hospital  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.3.102/24     00:01:47:c7:a3:44       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:c7:a3:a6       AutoConfig
+--------------------------------------------------------------------------------
+Leominster_Community_Hospital  !
+?Invalid command
+Leominster_Community_Hospital  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.3.1       1        STATICLOW                  
+10.128.3.0/24            1/1/6/0/ip       1        LOCAL                      
+Leominster_Community_Hospital  !
+?Invalid command
+Leominster_Community_Hospital  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.3.1       0        1          enabled 
+Leominster_Community_Hospital  !
+?Invalid command
+Leominster_Community_Hospital  bridge show
+     Orig
+Type VLAN/SLAN     VLAN/SLAN  Bridge                              St  Table Data
+--------------------------------------------------------------------------------------
+tls             Tagged 2046   1-1-99-0-efmbond-2046/bridge        UP  D 00:01:47:1f:71:74
+                                                                      D 00:01:47:1f:77:e6
+                                                                      D 00:01:47:22:8d:c8
+                                                                      D 00:01:47:22:a2:63
+                                                                      D 00:01:47:2e:c7:af
+                                                                      D 00:01:47:31:dc:97
+                                                                      D 00:01:47:33:47:5d
+                                                                      D 00:01:47:a4:97:46
+                                                                      D 00:20:85:ff:a4:c0
+                                                                      D 00:e0:d8:14:cb:93
+                                                                      D 54:4a:00:0a:60:c0
+tls             Tagged 115    1-1-99-0-efmbond-115/bridge         UP  D 54:4a:00:0a:60:c0
+tls             Tagged 115    1-1-1-0-eth-115/bridge              UP  D d0:d0:fd:a1:c6:81
+                                                                      D d0:d0:fd:a1:c6:c2
+tls             Tagged 2046   1-1-1-0-eth-2046/bridge             UP  
+tls             Tagged 2046   ipobridge-2046/bridge               UP  D 00:01:47:c7:a3:44
+<SPACE> for next page, <CR> for next line, A for all, Q to quit                                                               tls                2046       1-1-2-0-eth/bridge                  DWN 
+6 bridges displayed
+Leominster_Community_Hospital  
+??
+Leominster_Community_Hospital  
+??
+Leominster_Community_Hospital  
+??
+Leominster_Community_Hospital  
+??
+Leominster_Community_Hospital  
+??
+Leominster_Community_Hospital 

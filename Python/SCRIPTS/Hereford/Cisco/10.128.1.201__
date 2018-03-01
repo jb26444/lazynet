@@ -1,0 +1,198 @@
+
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 4137 bytes
+ip vrf HCC-CORPORATE
+ description *** HCC-CORPORATE VRF ***
+ rd 51551:2700
+ route-target export 51551:2700
+ route-target import 51551:2700
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC001 - HEREFORD EX*****
+ bandwidth 100000
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.503
+ description *****Uplink to HCC001 - VRF CORPORATE*****
+ encapsulation dot1Q 503
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.14 255.255.255.252
+ --More--         !
+interface GigabitEthernet0/1
+ ip vrf forwarding HCC-CORPORATE
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+interface GigabitEthernet0/1.100
+ encapsulation dot1Q 100
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.149 255.255.255.252
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.13
+ip route vrf HCC-CORPORATE 10.16.0.148 255.255.255.252 10.16.0.150
+ip route vrf HCC-CORPORATE 10.18.20.0 255.255.255.0 10.16.0.150
+ip route vrf HCC-CORPORATE 10.18.21.0 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.18.21.128 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.18.113.0 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.20.20.0 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.20.20.64 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.20.20.128 255.255.255.192 10.16.0.150
+ip route vrf HCC-CORPORATE 10.20.20.192 255.255.255.192 10.16.0.150
+ --More--         
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 619 bytes
+ip vrf HCC-EDUCATION
+ description *** HCC-EDUCATION VRF ***
+ rd 51551:2710
+ route-target export 51551:2710
+ route-target import 51551:2710
+!
+!
+interface GigabitEthernet0/0
+ description *****Uplink to HCC001 - HEREFORD EX*****
+ bandwidth 100000
+ no ip address
+ duplex auto
+ speed auto
+ service-policy input CPE-QOS-PSN-PE-IN
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0/0.504
+ description *****Uplink to HCC001 - VRF EDUCATION*****
+ encapsulation dot1Q 504
+ ip vrf forwarding HCC-EDUCATION
+ ip address 10.31.250.18 255.255.255.252
+ --More--         !
+ip route vrf HCC-EDUCATION 0.0.0.0 0.0.0.0 10.31.250.17
+end
+
+TOWN-HALL#
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.13 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.13
+      10.0.0.0/8 is variably subnetted, 41 subnets, 4 masks
+C        10.16.0.148/30 is directly connected, GigabitEthernet0/1.100
+L        10.16.0.149/32 is directly connected, GigabitEthernet0/1.100
+S        10.18.20.0/24 [1/0] via 10.16.0.150
+S        10.18.21.0/26 [1/0] via 10.16.0.150
+S        10.18.21.128/26 [1/0] via 10.16.0.150
+S        10.18.113.0/26 [1/0] via 10.16.0.150
+S        10.20.20.0/26 [1/0] via 10.16.0.150
+S        10.20.20.64/26 [1/0] via 10.16.0.150
+ --More--         S        10.20.20.128/26 [1/0] via 10.16.0.150
+S        10.20.20.192/26 [1/0] via 10.16.0.150
+S        10.20.21.0/26 [1/0] via 10.16.0.150
+S        10.20.21.64/26 [1/0] via 10.16.0.150
+S        10.20.21.128/26 [1/0] via 10.16.0.150
+S        10.20.113.0/26 [1/0] via 10.16.0.150
+S        10.20.113.64/26 [1/0] via 10.16.0.150
+S        10.23.20.0/26 [1/0] via 10.16.0.150
+S        10.23.20.64/26 [1/0] via 10.16.0.150
+S        10.23.20.128/26 [1/0] via 10.16.0.150
+S        10.23.20.192/26 [1/0] via 10.16.0.150
+S        10.23.21.0/26 [1/0] via 10.16.0.150
+S        10.23.21.128/26 [1/0] via 10.16.0.150
+S        10.23.113.0/26 [1/0] via 10.16.0.150
+S        10.23.113.64/26 [1/0] via 10.16.0.150
+S        10.24.20.0/26 [1/0] via 10.16.0.150
+S        10.24.20.64/26 [1/0] via 10.16.0.150
+S        10.24.20.128/26 [1/0] via 10.16.0.150
+S        10.24.20.192/26 [1/0] via 10.16.0.150
+S        10.24.21.0/26 [1/0] via 10.16.0.150
+S        10.24.21.64/26 [1/0] via 10.16.0.150
+S        10.24.21.128/26 [1/0] via 10.16.0.150
+S        10.24.113.0/26 [1/0] via 10.16.0.150
+ --More--         
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.17 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.17
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.31.250.16/30 is directly connected, GigabitEthernet0/0.504
+L        10.31.250.18/32 is directly connected, GigabitEthernet0/0.504
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+TOWN-HALL# 
+TOWN-HALL# !
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL# 
+TOWN-HALL#

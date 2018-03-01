@@ -1,0 +1,365 @@
+
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1979 bytes
+vrf definition HCC-CORPORATE
+ rd 10.4.9.9:2700
+ !
+ address-family ipv4
+  route-target export 51551:2700
+  route-target import 51551:2700
+ exit-address-family
+!
+!
+interface Vlan200
+ description *** HCC-CORPORATE - HANDOVER ***
+ vrf forwarding HCC-CORPORATE
+ ip address 10.31.255.217 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 7 08001D7C24382239413F
+ ip ospf network point-to-point
+ ip ospf cost 1
+!
+interface Vlan506
+ description ****HARC_FIR_TREE_LANE - CORPORATE VRF***
+ --More--          vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.25 255.255.255.252
+!
+router ospf 3 vrf HCC-CORPORATE
+ router-id 10.31.255.217
+ log-adjacency-changes detail
+ auto-cost reference-bandwidth 10000
+ capability vrf-lite
+ area 0 authentication message-digest
+ redistribute connected metric 1 metric-type 1 subnets
+ redistribute static metric 1 metric-type 1 subnets
+ redistribute bgp 64651 subnets
+ network 10.31.255.216 0.0.0.3 area 0
+!
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-CORPORATE
+  redistribute connected
+  redistribute static
+  redistribute ospf 3 route-map ROUTES-FROM-HCC-LAN-CORPORATE
+  default-information originate
+ exit-address-family
+ --More--         
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 1026 bytes
+vrf definition HCC-EDUCATION
+ rd 10.4.9.9:2710
+ !
+ address-family ipv4
+  route-target export 51551:2710
+  route-target import 51551:2710
+ exit-address-family
+!
+!
+interface Vlan201
+ description *** HCC-EDUCATION - HANDOVER ***
+ vrf forwarding HCC-EDUCATION
+ ip address 10.31.255.221 255.255.255.252
+ ip ospf authentication message-digest
+ ip ospf message-digest-key 1 md5 7 1436433921250D05771C
+ ip ospf network point-to-point
+ ip ospf cost 1
+!
+router ospf 2 vrf HCC-EDUCATION
+ router-id 10.31.255.221
+ --More--          log-adjacency-changes detail
+ auto-cost reference-bandwidth 10000
+ capability vrf-lite
+ area 0 authentication message-digest
+ redistribute connected metric 1 metric-type 1 subnets
+ redistribute static metric 1 metric-type 1 subnets
+ redistribute bgp 64651 subnets
+ network 10.31.255.220 0.0.0.3 area 0
+!
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-EDUCATION
+  redistribute connected
+  redistribute static
+  redistribute ospf 2 route-map ROUTES-FROM-HCC-LAN
+  default-information originate
+ exit-address-family
+!
+end
+
+HARC-DC-WAN-3600#
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh run vrf HCC-INTERNET
+Building configuration...
+
+Current configuration : 790 bytes
+vrf definition HCC-INTERNET
+ rd 10.4.9.4:2740
+ !
+ address-family ipv4
+  route-target export 51551:2740
+  route-target import 51551:2740
+ exit-address-family
+!
+!
+interface GigabitEthernet0/14
+ description ***UPLINK TO HCC - 100MBT ISP SERVICE***
+ no switchport
+ vrf forwarding HCC-INTERNET
+ ip address 192.168.1.254 255.255.255.252
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-INTERNET
+  redistribute connected
+  redistribute static
+ --More--           neighbor 192.168.1.253 remote-as 49728
+  neighbor 192.168.1.253 description ***UPLINK TO HCC LAN ISP SERVICE***
+  neighbor 192.168.1.253 password 7 011601220F1B230D7375190A280B3246
+  neighbor 192.168.1.253 activate
+  neighbor 192.168.1.253 soft-reconfiguration inbound
+  neighbor 192.168.1.253 route-map ISP-PREPEND-IN in
+ exit-address-family
+!
+end
+
+HARC-DC-WAN-3600#
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 489 bytes
+vrf definition HCC-PUBLIC
+ rd 10.4.9.9:2720
+ !
+ address-family ipv4
+  route-target export 51551:2720
+  route-target import 51551:2720
+ exit-address-family
+!
+!
+interface Vlan560
+ description ****HARC_FIR_TREE_LANE - PUBLIC VRF***
+ vrf forwarding HCC-PUBLIC
+ ip address 10.31.54.9 255.255.255.252
+!
+router bgp 64651
+ !
+ address-family ipv4 vrf HCC-PUBLIC
+  redistribute connected
+  redistribute static
+ exit-address-family
+ --More--         !
+ip route vrf HCC-PUBLIC 10.5.202.0 255.255.255.0 10.31.54.10
+end
+
+HARC-DC-WAN-3600#
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.255.218 to network 0.0.0.0
+
+O*E1  0.0.0.0/0 [110/2] via 10.31.255.218, 7w0d, Vlan200
+      10.0.0.0/8 is variably subnetted, 656 subnets, 11 masks
+O E1     10.0.2.0/24 [110/2] via 10.31.255.218, 7w0d, Vlan200
+O        10.0.247.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.0.250.208/28 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O E1     10.1.2.0/24 [110/2] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.10.0/23 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.12.0/23 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.20.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+ --More--         O E1     10.1.21.0/24 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.1.22.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.247.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.248.0/23 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.250.208/28 [110/82] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.252.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.1.253.0/24 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.4.0.0/24 [110/82] via 10.31.255.218, 7w0d, Vlan200
+O E1     10.7.0.0/28 [110/2] via 10.31.255.218, 7w0d, Vlan200
+O E1     10.7.0.16/28 [110/2] via 10.31.255.218, 7w0d, Vlan200
+O        10.8.0.72/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.8.0.104/29 [110/42] via 10.31.255.218, 7w0d, Vlan200
+O        10.8.0.120/29 [110/6] via 10.31.255.218, 7w0d, Vlan200
+O E1     10.8.0.148/30 [110/84] via 10.31.255.218, 2w5d, Vlan200
+O        10.8.0.152/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.8.0.160/30 [110/82] via 10.31.255.218, 2w5d, Vlan200
+O        10.8.0.164/30 [110/2] via 10.31.255.218, 7w0d, Vlan200
+O        10.15.52.0/22 [110/42] via 10.31.255.218, 7w0d, Vlan200
+B        10.16.0.0/29 [200/0] via 10.4.9.1, 7w0d
+O        10.16.0.12/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.16.0.16/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.16.0.20/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+O        10.16.0.100/30 [110/83] via 10.31.255.218, 2w5d, Vlan200
+ --More--         
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.255.222 to network 0.0.0.0
+
+O*E1  0.0.0.0/0 [110/2] via 10.31.255.222, 7w0d, Vlan201
+      10.0.0.0/8 is variably subnetted, 99 subnets, 7 masks
+O        10.0.2.0/24 [110/42] via 10.31.255.222, 7w0d, Vlan201
+O        10.1.2.0/24 [110/42] via 10.31.255.222, 7w0d, Vlan201
+O E1     10.1.248.0/23 [110/2] via 10.31.255.222, 7w0d, Vlan201
+O E1     10.1.252.0/24 [110/2] via 10.31.255.222, 7w0d, Vlan201
+O E1     10.7.0.16/28 [110/2] via 10.31.255.222, 7w0d, Vlan201
+O        10.8.0.72/30 [110/83] via 10.31.255.222, 2w5d, Vlan201
+O        10.8.0.104/29 [110/42] via 10.31.255.222, 7w0d, Vlan201
+ --More--         O        10.8.0.160/30 [110/82] via 10.31.255.222, 2w5d, Vlan201
+O        10.8.0.164/30 [110/2] via 10.31.255.222, 7w0d, Vlan201
+O        10.15.56.0/22 [110/42] via 10.31.255.222, 7w0d, Vlan201
+O E2     10.16.0.176/30 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.17.0.8/29 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.17.0.176/29 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.17.0.240/29 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.17.1.152/29 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.18.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.19.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.20.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.21.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.22.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.22.74.0/24 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.22.76.0/24 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.22.94.0/24 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.22.103.0/24 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.23.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.24.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.26.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.27.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.28.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+O E2     10.30.32.0/22 [110/1] via 10.31.255.222, 2w5d, Vlan201
+ --More--         
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh ip route vrf HCC-INTERNET
+
+Routing Table: HCC-INTERNET
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.4.9.1 to network 0.0.0.0
+
+B*    0.0.0.0/0 [200/0] via 10.4.9.1, 4d01h
+      10.0.0.0/30 is subnetted, 1 subnets
+B        10.50.1.148 [200/0] via 10.4.9.1, 7w0d
+      192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.1.252/30 is directly connected, GigabitEthernet0/14
+L        192.168.1.254/32 is directly connected, GigabitEthernet0/14
+B     193.200.145.0/24 [20/0] via 192.168.1.253, 1w3d
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.4.9.6 to network 0.0.0.0
+
+B*    0.0.0.0/0 [200/0] via 10.4.9.6, 2w5d
+      10.0.0.0/8 is variably subnetted, 39 subnets, 5 masks
+B        10.5.50.0/23 [200/0] via 10.4.9.1, 7w0d
+B        10.5.192.0/24 [200/0] via 10.4.9.1, 7w0d
+B        10.5.193.0/24 [200/0] via 10.4.9.7, 3w1d
+B        10.5.194.0/24 [200/0] via 10.4.9.9, 7w0d
+B        10.5.195.0/24 [200/0] via 10.4.9.5, 2w4d
+B        10.5.196.0/24 [200/0] via 10.4.9.3, 7w0d
+B        10.5.197.0/24 [200/0] via 10.4.9.1, 4d00h
+ --More--         B        10.5.198.0/24 [200/0] via 10.4.9.1, 21:38:33
+B        10.5.199.0/24 [200/0] via 10.4.9.1, 21:38:33
+B        10.5.200.0/24 [200/0] via 10.4.9.1, 7w0d
+B        10.5.201.0/24 [200/0] via 10.4.9.2, 2w3d
+S        10.5.202.0/24 [1/0] via 10.31.54.10
+B        10.5.204.0/24 [200/0] via 10.4.9.1, 7w0d
+B        10.5.205.0/24 [200/0] via 10.4.9.1, 7w0d
+B        10.31.52.20/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.52.60/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.53.0/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.53.4/30 [200/0] via 10.4.9.1, 21:38:33
+B        10.31.53.8/30 [200/0] via 10.4.9.1, 21:38:33
+B        10.31.53.12/30 [200/0] via 10.4.9.1, 4d00h
+B        10.31.53.16/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.53.24/29 [200/0] via 10.4.9.1, 7w0d
+C        10.31.54.8/30 is directly connected, Vlan560
+L        10.31.54.9/32 is directly connected, Vlan560
+B        10.31.54.36/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.54.56/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.54.68/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.56.88/30 [200/0] via 10.4.9.1, 7w0d
+B        10.31.60.12/30 [200/0] via 10.4.9.2, 2w3d
+B        10.31.66.24/30 [200/0] via 10.4.9.3, 7w0d
+ --More--         
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# !
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600# 
+HARC-DC-WAN-3600#

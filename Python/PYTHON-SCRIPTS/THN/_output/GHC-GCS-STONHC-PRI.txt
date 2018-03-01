@@ -1,0 +1,28 @@
+set interfaces xe-1/2/0 unit 681 description GHC-GCS-STONHC-PRI
+set interfaces xe-1/2/0 unit 681 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 681 vlan-tags inner 201
+set interfaces xe-1/2/0 unit 681 family inet address 10.50.25.156/31
+
+set routing-instances UPDATA interface xe-1/2/0.681
+
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.157 description GHC-GCS-STONHC-PRI
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.157 peer-as 64726
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.157 export plc-BGP-Updata-MGMT-export
+set routing-instances UPDATA protocols bgp group UPDATA neighbor 10.50.25.157 import plc-BGP-Updata-MGMT-import
+
+
+set interfaces xe-1/2/0 unit 682 description GHC-GCS-STONHC-PRI
+set interfaces xe-1/2/0 unit 682 vlan-tags outer 26
+set interfaces xe-1/2/0 unit 682 vlan-tags inner 202
+set interfaces xe-1/2/0 unit 682 family inet address 10.50.25.224/31
+
+set routing-instances GHC-COIN interface xe-1/2/0.682
+
+
+set routing-instances GHC-COIN protocols bgp mtu-discovery
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI type external
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI hold-time 20
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI peer-as 64726
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI neighbor 10.50.25.225 description GHC-GCS-STONHC-PRI
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI neighbor 10.50.25.225 import plc-GHC-GCS-STONHC-PRI-import
+set routing-instances GHC-COIN protocols bgp group GHC-GCS-STONHC-PRI neighbor 10.50.25.225 export plc-GHC-GCS-STONHC-PRI-export

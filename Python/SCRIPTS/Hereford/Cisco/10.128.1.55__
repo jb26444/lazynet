@@ -1,0 +1,211 @@
+
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1404 bytes
+ip vrf HCC-CORPORATE
+ description *** HCC-CORPORATE VRF ***
+ rd 51551:2700
+ route-target export 51551:2700
+ route-target import 51551:2700
+!
+!
+interface GigabitEthernet0
+ description ****UPLINK TO HCC001 - HEREFORD EX.*****
+ bandwidth 10000
+ no ip address
+ duplex full
+ speed auto
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0.163
+ description ****UPLINK TO HCC001 - VRF CORPORATE****
+ encapsulation dot1Q 163
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.252.46 255.255.255.252
+ --More--          no cdp enable
+!
+interface Vlan128
+ description ****CORPORATE - VLAN 128*****
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.17.0.225 255.255.255.248
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+interface Vlan907
+ description ****CORPORATE - VLAN 907*****
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.25.52.1 255.255.255.0
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.252.45
+ip route vrf HCC-CORPORATE 10.17.0.224 255.255.255.248 10.17.0.226
+ip route vrf HCC-CORPORATE 10.20.52.0 255.255.255.0 10.17.0.226
+ip route vrf HCC-CORPORATE 10.21.52.0 255.255.255.0 10.17.0.226
+ip route vrf HCC-CORPORATE 10.23.52.0 255.255.255.0 10.17.0.226
+ip route vrf HCC-CORPORATE 10.24.52.0 255.255.255.0 10.17.0.226
+ip route vrf HCC-CORPORATE 10.25.52.0 255.255.255.0 10.17.0.226
+ip route vrf HCC-CORPORATE 172.29.100.36 255.255.255.255 10.17.0.226
+end
+ --More--         
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh run vrf HCC-EDUCATION
+Building configuration...
+
+Current configuration : 148 bytes
+ip vrf HCC-EDUCATION
+ description *** HCC-EDUCATION VRF ***
+ rd 51551:2710
+ route-target export 51551:2710
+ route-target import 51551:2710
+!
+!
+end
+
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh run vrf HCC-PUBLIC
+Building configuration...
+
+Current configuration : 821 bytes
+ip vrf HCC-PUBLIC
+ description *** HCC-PUBLIC VRF ***
+ rd 51551:2720
+ route-target export 51551:2720
+ route-target import 51551:2720
+!
+!
+interface GigabitEthernet0
+ description ****UPLINK TO HCC001 - HEREFORD EX.*****
+ bandwidth 10000
+ no ip address
+ duplex full
+ speed auto
+ service-policy output CPE-QOS-PSN-PE-OUT
+!
+interface GigabitEthernet0.218
+ description ****UPLINK TO HCC001 - VRF PUBLIC****
+ encapsulation dot1Q 218
+ ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.52.22 255.255.255.252
+ --More--          no cdp enable
+!
+interface Vlan218
+ description ****PUBLIC - VLAN 218 HANDOVER ROUTED*****
+ ip vrf forwarding HCC-PUBLIC
+ ip address 10.31.53.1 255.255.255.252
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-PUBLIC 0.0.0.0 0.0.0.0 10.31.52.21
+ip route vrf HCC-PUBLIC 10.5.200.0 255.255.255.0 10.31.53.2
+end
+
+HCC-BELMONT-LIBRARY#
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.252.45 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.252.45
+      10.0.0.0/8 is variably subnetted, 10 subnets, 4 masks
+C        10.17.0.224/29 is directly connected, Vlan128
+L        10.17.0.225/32 is directly connected, Vlan128
+S        10.20.52.0/24 [1/0] via 10.17.0.226
+S        10.21.52.0/24 [1/0] via 10.17.0.226
+S        10.23.52.0/24 [1/0] via 10.17.0.226
+S        10.24.52.0/24 [1/0] via 10.17.0.226
+C        10.25.52.0/24 is directly connected, Vlan907
+L        10.25.52.1/32 is directly connected, Vlan907
+ --More--         C        10.31.252.44/30 is directly connected, GigabitEthernet0.163
+L        10.31.252.46/32 is directly connected, GigabitEthernet0.163
+      172.29.0.0/32 is subnetted, 1 subnets
+S        172.29.100.36 [1/0] via 10.17.0.226
+HCC-BELMONT-LIBRARY#
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh ip route vrf HCC-EDUCATION
+
+Routing Table: HCC-EDUCATION
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh ip route vrf HCC-PUBLIC
+
+Routing Table: HCC-PUBLIC
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.52.21 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.52.21
+      10.0.0.0/8 is variably subnetted, 5 subnets, 3 masks
+S        10.5.200.0/24 [1/0] via 10.31.53.2
+C        10.31.52.20/30 is directly connected, GigabitEthernet0.218
+L        10.31.52.22/32 is directly connected, GigabitEthernet0.218
+C        10.31.53.0/30 is directly connected, Vlan218
+L        10.31.53.1/32 is directly connected, Vlan218
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# !
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY# 
+HCC-BELMONT-LIBRARY#

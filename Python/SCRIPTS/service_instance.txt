@@ -1,0 +1,12 @@
+service instance 10 ethernet
+description cust: VRF1
+encapsulation dot1q 10
+rewrite ingress tag pop 1 symmetric
+bridge-domain 10
+!
+service instance 20 ethernet
+description cust: VRF2
+encapsulation dot1q 20
+rewrite ingress tag pop 1 symmetric
+bridge-domain 20
+!

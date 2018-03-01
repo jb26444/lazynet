@@ -1,0 +1,58 @@
+Ross_Community_Hospital  !
+?Invalid command
+Ross_Community_Hospital  interface show
+3 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.9.101/24     00:01:47:22:94:62       ipobridge-2046
+1/1/6/0/ip     UP      1 10.206.5.105/24     00:01:47:22:94:62       ipobridge-2047
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:22:94:c4       AutoConfig
+--------------------------------------------------------------------------------
+Ross_Community_Hospital  !
+?Invalid command
+Ross_Community_Hospital  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.9.1       1        STATICLOW                  
+10.206.5.0/24            1/1/6/0/ip       1        LOCAL                      
+10.128.9.0/24            1/1/6/0/ip       1        LOCAL                      
+Ross_Community_Hospital  !
+?Invalid command
+Ross_Community_Hospital  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.9.1       0        1          enabled 
+Ross_Community_Hospital  !
+?Invalid command
+Ross_Community_Hospital  bridge show
+Type VLAN        Bridge                         St  Table Data
+--------------------------------------------------------------------------------------
+tls Tagged 112   1-1-99-0-efmbond-112/bridge    UP  D 54:4a:00:0a:4e:c0
+tls Tagged 112   1-1-1-0-eth-112/bridge         UP  D 00:15:62:24:0f:83
+                                                    D 00:15:62:24:0f:c2
+tls            7 1-1-99-0-efmbond/bridge        UP  
+tls Tagged 2046  1-1-99-0-efmbond-2046/bridge   UP  D 00:01:47:1e:07:58
+                                                    D 00:01:47:1f:7d:f4
+                                                    D 00:01:47:2b:ad:18
+                                                    D 00:01:47:30:3a:d6
+                                                    D 00:01:47:30:45:a8
+                                                    D 00:01:47:e2:c9:da
+                                                    D 00:20:85:ff:a4:be
+                                                    D 00:e0:d8:15:14:86
+                                                    D 54:4a:00:0a:4e:c0
+tls Tagged 2046  ipobridge-2046/bridge          UP  D 00:01:47:22:94:62
+Ross_Community_Hospital  !
+?Invalid command
+Ross_Community_Hospital  
+??
+Ross_Community_Hospital  
+??
+Ross_Community_Hospital  
+??
+Ross_Community_Hospital  
+??
+Ross_Community_Hospital  
+??
+Ross_Community_Hospital 

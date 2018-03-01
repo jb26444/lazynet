@@ -1,0 +1,128 @@
+
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh run vrf HCC-CORPORATE
+Building configuration...
+
+Current configuration : 1154 bytes
+ip vrf HCC-CORPORATE
+ description *** HCC-CORPORATE ***
+ rd 51551:2700
+ route-target export 51551:2700
+ route-target import 51551:2700
+!
+!
+interface GigabitEthernet8
+ description ***10MBT EFM TO HEREFORD EXCHANGE***
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet8.545
+ description ***HCC-CORPORATE UPLINK TO HEREFORD EXCHANGE***
+ encapsulation dot1Q 545
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.31.250.182 255.255.255.252
+!
+interface Vlan100
+ --More--          description ***HCC CORPORATE - LAN HANDOVER***
+ ip vrf forwarding HCC-CORPORATE
+ ip address 10.16.0.109 255.255.255.252
+ service-policy input CPE-QOS-PSN-CUSTOMER-IN
+!
+ip route vrf HCC-CORPORATE 0.0.0.0 0.0.0.0 10.31.250.181
+ip route vrf HCC-CORPORATE 10.18.12.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 10.20.12.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 10.20.200.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 10.23.12.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 10.24.12.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 10.25.12.0 255.255.255.0 10.16.0.110
+ip route vrf HCC-CORPORATE 172.29.99.15 255.255.255.255 10.16.0.110
+end
+
+22_ST_OWEN#
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh run vrf HCC-EDUCATION
+% No VRF named HCC-EDUCATION
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh run vrf HCC-INTERNET
+% No VRF named HCC-INTERNET
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh run vrf HCC-PUBLIC
+% No VRF named HCC-PUBLIC
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh run vrf HCC-PUBLIC-IL0
+% No VRF named HCC-PUBLIC-IL0
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh ip route vrf HCC-CORPORATE
+
+Routing Table: HCC-CORPORATE
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override
+
+Gateway of last resort is 10.31.250.181 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.31.250.181
+      10.0.0.0/8 is variably subnetted, 10 subnets, 3 masks
+C        10.16.0.108/30 is directly connected, Vlan100
+L        10.16.0.109/32 is directly connected, Vlan100
+S        10.18.12.0/24 [1/0] via 10.16.0.110
+S        10.20.12.0/24 [1/0] via 10.16.0.110
+S        10.20.200.0/24 [1/0] via 10.16.0.110
+S        10.23.12.0/24 [1/0] via 10.16.0.110
+S        10.24.12.0/24 [1/0] via 10.16.0.110
+ --More--         S        10.25.12.0/24 [1/0] via 10.16.0.110
+C        10.31.250.180/30 is directly connected, GigabitEthernet8.545
+L        10.31.250.182/32 is directly connected, GigabitEthernet8.545
+      172.29.0.0/32 is subnetted, 1 subnets
+S        172.29.99.15 [1/0] via 10.16.0.110
+22_ST_OWEN#
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh ip route vrf HCC-EDUCATION
+% IP routing table vrf HCC-EDUCATION does not exist
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh ip route vrf HCC-INTERNET
+% IP routing table vrf HCC-INTERNET does not exist
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh ip route vrf HCC-PUBLIC
+% IP routing table vrf HCC-PUBLIC does not exist
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# sh ip route vrf HCC-PUBLIC-IL0
+% IP routing table vrf HCC-PUBLIC-IL0 does not exist
+22_ST_OWEN# 
+22_ST_OWEN# !
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN# 
+22_ST_OWEN#

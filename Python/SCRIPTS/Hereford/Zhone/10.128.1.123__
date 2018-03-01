@@ -1,0 +1,61 @@
+Old_House_Museum  !
+?Invalid command
+Old_House_Museum  interface show
+2 interfaces
+Interface      Status  Rd/Address            Media/Dest Address      IfName
+--------------------------------------------------------------------------------
+1/1/6/0/ip     UP      1 10.128.1.123/24     00:01:47:73:aa:23       ipobridge-2046
+1/1/99/0/ip    UP      1 0.0.0.0/0           00:01:47:73:aa:85       AutoConfig
+--------------------------------------------------------------------------------
+Old_House_Museum  !
+?Invalid command
+Old_House_Museum  route show
+Destination Routing Table
+
+Dest                     Nexthop          Cost     Owner      Fallback        
+------------------------------------------------------------------------------
+0.0.0.0/0                10.128.1.1       1        STATICLOW                  
+10.128.1.0/24            1/1/6/0/ip       1        LOCAL                      
+Old_House_Museum  !
+?Invalid command
+Old_House_Museum  route list
+Domain   Dest             Mask             Nexthop          IfNum    Cost       Enable  
+----------------------------------------------------------------------------------------
+1        0.0.0.0          0.0.0.0          10.128.1.1       0        1          enabled 
+Old_House_Museum  !
+?Invalid command
+Old_House_Museum  bridge show
+     Orig
+Type VLAN/SLAN     VLAN/SLAN  Bridge                              St  Table Data
+--------------------------------------------------------------------------------------
+tls             Tagged 2046   1-1-99-0-efmbond-2046/bridge        UP  D 00:01:47:1c:6f:3d
+                                                                      D 00:01:47:22:95:1b
+                                                                      D 00:01:47:22:96:a6
+                                                                      D 00:01:47:22:97:ff
+                                                                      D 00:01:47:22:9d:8b
+                                                                      D 00:01:47:30:3a:9a
+                                                                      D 00:01:47:34:e5:3b
+                                                                      D 00:01:47:4a:40:b6
+                                                                      D 00:01:47:dc:b1:8f
+                                                                      D 00:e0:d8:11:9a:95
+                                                                      D 54:4a:00:0a:82:c0
+tls             Tagged 2046   ipobridge-2046/bridge               UP  D 00:01:47:73:aa:23
+tls             Tagged 155    1-1-99-0-efmbond-155/bridge         UP  D 54:4a:00:0a:82:c0
+tls             Tagged 155    1-1-1-0-eth-155/bridge              UP  D f8:7b:20:2a:b5:09
+                                                                      D f8:7b:20:2a:b5:41
+tls             Tagged 370    1-1-99-0-efmbond-370/bridge         UP  
+<SPACE> for next page, <CR> for next line, A for all, Q to quit                                                               tls             Tagged 370    1-1-2-0-eth-370/bridge              DWN 
+tls             Tagged 555    1-1-99-0-efmbond-555/bridge         UP  
+tls             Tagged 555    1-1-3-0-eth-555/bridge              DWN 
+8 bridges displayed
+Old_House_Museum  
+??
+Old_House_Museum  
+??
+Old_House_Museum  
+??
+Old_House_Museum  
+??
+Old_House_Museum  
+??
+Old_House_Museum 
