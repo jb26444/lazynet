@@ -1,8 +1,0 @@
-interface Tunnel1
- description **** CUSTOMER-TUNNEL ****
- ip vrf forwarding HCC-EDUCATION
- ip address 10.31.255.26 255.255.255.252
- ip mtu 1438
- ip tcp adjust-mss 1350
- tunnel source Loopback1
- tunnel destination 46.183.192.226
